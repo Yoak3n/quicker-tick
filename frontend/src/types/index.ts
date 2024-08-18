@@ -18,10 +18,10 @@ export enum ItemType {
     Paragraph = "paragraph",
     Text = "text",
 }
-
+export type Item = DocJson;
 export interface DocJson {
     type: ItemType;
-    content: DocJson[];
+    content: Array<Item>;
     attrs?:Attrs;
     text?: string;
 }

@@ -1,16 +1,19 @@
 <template>
   <div class="editor-wrapper">
     <editor-content :editor="rich" />
+    {{ props.data }}
     <div class="submit-button" @click="submit">
       <button>提交</button>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import {  ref,onMounted, onUnmounted,onActivated } from "vue";
-import { Editor, EditorContent,Content } from '@tiptap/vue-3'
+import {  ref,onMounted, onUnmounted,onActivated, PropType } from "vue";
+import { Editor, EditorContent } from '@tiptap/vue-3'
 import {RichText} from "@/utils/rich_text"
-
+import { SetEditorContent } from ".";
+import { Task } from "@/types";
+import { model } from "wailsjs/go/models";
 let rich =ref<Editor | undefined>()
 let result = ref<string>('')
 
@@ -36,6 +39,10 @@ const props = defineProps({
   callback: {
     type: Function,
     default: () => {}
+  },
+  data:{
+    type: Object as PropType<Array<Task>>,
+    default: () => {}
   }
 })
 const submit = () => {
@@ -43,9 +50,10 @@ const submit = () => {
   props.callback(result.value)
 }
 
+
 </script>
 
-
+const tes
 <style  lang="less">
 .tiptap {
   :first-child {

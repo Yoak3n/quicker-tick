@@ -51,3 +51,51 @@ func ParseTasksChildren(task model.TasksTable, query *map[string]model.TasksTabl
 		}
 	}
 }
+
+func ConvertToDoc(tasks []*model.TaskView) model.Item {
+	item := model.Item{
+		Type: "doc",
+		Content: []model.Item{
+			{
+				Type:    "taskList",
+				Content: []model.Item{},
+			},
+		},
+	}
+	if len(tasks) == 0 {
+		return item
+	} else {
+		for _, task := range tasks {
+			item.Content[0].Content = append(item.Content[0].Content, convertToTaskList(task))
+		}
+	}
+	return item
+}
+
+func convertToTaskList(task *model.TaskView) model.Item {
+	item := model.Item{
+		Type: "taskItem",
+		Content: []model.Item{
+			{
+				Type: "paragraph",
+				Content: []model.Item{
+					{
+						Type: "text",
+						Text: task.Description,
+					},
+				},
+			},
+		},
+	}
+	if len(task.Children) > 0 {
+		item.Content = append(item.Content, model.Item{
+			Type:    "taskList",
+			Content: []model.Item{},
+		})
+		for _, child := range task.Children {
+			item.Content[1].Content = append(item.Content, convertToTaskList(&child))
+		}
+	}
+
+	return item
+}

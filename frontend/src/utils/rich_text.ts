@@ -8,7 +8,7 @@ import { Operation,taskDocument } from './extension'
 
 
 export const  RichText  =  new Editor({
-    content: ``,
+    content: "",
     extensions: [
       StarterKit.configure({
         document:false,
@@ -20,14 +20,6 @@ export const  RichText  =  new Editor({
       TaskItem.configure({
         nested:true,
       }),
-      // Placeholder.configure({
-      //   placeholder: ({ node }) => {
-      //     if (node.type.name === 'heading') {
-      //       return '请添加标题'
-      //     }
-      //     return ''
-      //   }
-      // }),
       Operation,
       Text,
     ],

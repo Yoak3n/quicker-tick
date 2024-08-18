@@ -9,7 +9,6 @@
                 <div class="task-item">
                     {{ item.description }}
                 </div>
-
             </n-gi>
         </n-grid>
 
@@ -17,9 +16,11 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType,toRef } from 'vue';
+import { PropType,toRef,onMounted } from 'vue';
 import { NGrid,NGi } from 'naive-ui';
 import type { TaskView } from '@/types';
+import { ConvertTaskView } from '../../../../wailsjs/go/app/App';
+import { model } from 'wailsjs/go/models';
 const props = defineProps({
     tasks: {
         type: Object as PropType<Array<TaskView> | undefined> | undefined,
@@ -27,6 +28,12 @@ const props = defineProps({
     }
 })
 const tasks = toRef(props, 'tasks')
+onMounted(() => {
+    ConvertTaskView(tasks.value as Array<model.TaskView>).then((res) => {
+        console.log(JSON.stringify(res));
+        
+    })
+})
 </script>
 
 <style scoped lang="less">

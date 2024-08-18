@@ -8,12 +8,11 @@
           </n-breadcrumb-item>
     </n-breadcrumb>
     <div class="modify-wrapper">
-        <editor :callback="getOutput"/>
+        <editor :callback="getOutput" />
     </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { NBreadcrumb, NBreadcrumbItem} from 'naive-ui';
 import Editor from '../components/editor/index.vue'
@@ -24,7 +23,6 @@ const date = $route.params.date as string;
 const getOutput = (data:string)=> {
     AddTask(data,date).then((res)=>{console.log(res);})
 }
-
 </script>
 
 <style scoped lang="less">

@@ -47,6 +47,11 @@ func (a *App) GetTasks(dates []string) map[string][]*model.TaskView {
 	return view
 }
 
+func (a *App) ConvertTaskView(tasks []*model.TaskView) model.Item {
+	item := od.ConvertToDoc(tasks)
+	return item
+}
+
 // Greet returns a greeting for the given name
 func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)
