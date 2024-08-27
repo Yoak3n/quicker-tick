@@ -86,6 +86,9 @@ func convertToTaskList(task *model.TaskView) model.Item {
 				},
 			},
 		},
+		Attrs: map[string]bool{
+			"checked": task.Checked,
+		},
 	}
 	if len(task.Children) > 0 {
 		item.Content = append(item.Content, model.Item{

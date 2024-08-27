@@ -59,19 +59,31 @@
             </div>
             <div class="calendar-body">
                 <n-grid :cols="7">
-                    <n-gi v-for="i in page_item_count()">
-                        <CalendarButton :date="`${y}-${m - 1}-${last_month_count - current_month_first_day + i}`"
-                            v-if="i <= current_month_first_day" />
+                    <n-gi v-for="i in page_item_count">
+                        <CalendarButton 
+                        :key="`${y}-${m - 1}-${last_month_count - current_month_first_day + i +1}`"
+                        :date="`${y}-${m - 1}-${last_month_count - current_month_first_day + i +1}`"
+                        v-if="i < current_month_first_day" />
                         <CalendarButton
-                            v-else-if="i > current_month_first_day && i <= current_month_count + current_month_first_day"
-                            :date="`${y}-${m}-${i - current_month_first_day}`" 
+                        
+                            v-else-if="i >= current_month_first_day && i < current_month_count + current_month_first_day"
+                            
+                            :date="`${y}-${m}-${i - current_month_first_day+1}`" 
+                            @click="()=>{
+                                const target = `${y}-${m}-${i - current_month_first_day+1 }`
+                                console.log(target);
+                                $router.push({name:'Modify',params:{date:target}})
+                            }"
+                            :key="`${y}-${m}-${i - current_month_first_day+1}`"
                             :current_month="true"
-                            :isToday="computeIsToday(`${y}-${m}-${i - current_month_first_day}`)"
+                            :isToday="computeIsToday(`${y}-${m}-${i - current_month_first_day+1}`)"
+                            :tasks="current_month_data.get(`${y}-${m}-${i - current_month_first_day}`)"
                              >
-                            <CalendarContent v-if="current_month_data.get(`${y}-${m}-${i - current_month_first_day}`)" :tasks="current_month_data.get(`${y}-${m}-${i - current_month_first_day}`)"/>
+                            
                         </CalendarButton>
-                        <CalendarButton v-else="i > current_month_count"
-                            :date="`${y}-${m + 1}-${i - current_month_count - current_month_first_day}`" />
+                        <CalendarButton v-else
+                        :key="`${y}-${m + 1}-${i - current_month_count - current_month_first_day +1}`"
+                        :date="`${y}-${m + 1}-${i - current_month_count - current_month_first_day +1}`" />
                     </n-gi>
                 </n-grid>
             </div>
@@ -80,11 +92,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref,onMounted, nextTick } from 'vue';
+import { ref,onMounted, nextTick,computed } from 'vue';
 import { NCard, NGrid, NGi,NIcon } from 'naive-ui';
+import { useRouter } from 'vue-router';
 import {ChevronBack,ChevronForward} from '@vicons/ionicons5'
 import CalendarButton from './CalendarButton/index.vue'
-import CalendarContent from './CalendarContent/index.vue'
 import type { Task} from '@/types';
 import {GetTasks}from '../../../wailsjs/go/app/App'
 const props = defineProps({
@@ -93,9 +105,11 @@ const props = defineProps({
         default: new Date().toLocaleDateString()
     }
 })
+const $router = useRouter()
 let ds = ref(props.date)
 let y = ref<number>(0)
 let m = ref<number>(0)
+
 
 let current_year = ref<number>(0)
 let current_month = ref<number>(0)
@@ -117,14 +131,15 @@ const render_view = async()=> {
     current_date.value = current.getDate() // 获取当前日
     last_month_count.value = new Date(current_year.value, current_month.value, 0).getDate() // 获取上个月的天数
     current_month_count.value = new Date(current_year.value, current_month.value + 1, 0).getDate() // 获取当前月的天数
-    current_month_first_day.value = new Date(current_year.value, current_month.value, 1).getDay() - 1 // 获取当前月的第一天是星期几
+    current_month_first_day.value = new Date(current_year.value, current_month.value, 1).getDay() // 获取当前月的第一天是星期几
+    if (current_month_first_day.value ===0)current_month_first_day.value = 7
+    
     let dates:Array<string> = []
     for (let i = 0; i < current_month_count.value; i++) {
         dates.push(`${current_year.value}-${current_month.value + 1}-${i + 1}`)
     }
     
     GetTasks(dates).then((res)=>{
-        console.log(res);
         
         dates.forEach((date)=>{
             let views:Array<Task> = []
@@ -153,14 +168,14 @@ const computeIsToday = (date:string)=>{
     return today_str === date
 }
 
-const page_item_count = () => {
+const page_item_count = computed(() => {
     const remainder = (current_month_count.value + current_month_first_day.value) % 7
     if (remainder !== 0) {
         return (current_month_count.value + current_month_first_day.value) + 7 - remainder
     } else {
         return current_month_count.value + current_month_first_day.value
     }
-}
+})
 
 const preMonth = ()=> {
     if(m.value === 1){

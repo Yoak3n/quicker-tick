@@ -1,7 +1,6 @@
 <template>
     <div class="calendar-button-wrapper">
         <button class="calendar-button" 
-        @click="openDate"
         :disabled="!props.current_month">
             <n-flex vertical wrap :size="0">
                 <div class="calendar-button-date"
@@ -10,7 +9,7 @@
                     {{ index}}
                 </div>
                 <div class="calendar-button-content">
-                    <slot></slot>
+                    <CalendarContent v-if="props.tasks" :tasks="props.tasks"/>
                 </div>
             </n-flex>
         </button>
@@ -18,8 +17,10 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from 'vue-router';
+import { onMounted,ref,PropType } from 'vue';
 import {NFlex} from 'naive-ui';
+import CalendarContent from '../CalendarContent/index.vue'
+import type{TaskView} from '@/types'
 const props = defineProps({
     date: {
         type: String,
@@ -32,15 +33,17 @@ const props = defineProps({
     isToday: {
         type: Boolean,
         default: false
+    },
+    tasks: {
+        type: Object as PropType<Array<TaskView> | undefined> | undefined,
     }
 })
 const date =new Date(props.date)
-const index = date.getDate().toString()
-const $router = useRouter()
+let index = ref('')
+onMounted(()=>{
+    index.value = date.getDate().toString()
+})
 
-const openDate = () => {
-    $router.push({name:'Modify',params:{date:props.date}})
-}
 </script>
 
 <style scoped lang="less">

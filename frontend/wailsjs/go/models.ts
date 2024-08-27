@@ -4,7 +4,7 @@ export namespace model {
 	    type: string;
 	    content?: Item[];
 	    text?: string;
-	    attrs?: {[key: string]: string};
+	    attrs?: {[key: string]: boolean};
 	
 	    static createFrom(source: any = {}) {
 	        return new Item(source);

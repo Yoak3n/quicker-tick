@@ -24,13 +24,12 @@ import { model } from 'wailsjs/go/models';
 const props = defineProps({
     tasks: {
         type: Object as PropType<Array<TaskView> | undefined> | undefined,
-        required: true
     }
 })
 const tasks = toRef(props, 'tasks')
 onMounted(() => {
     ConvertTaskView(tasks.value as Array<model.TaskView>).then((res) => {
-        console.log(JSON.stringify(res));
+        // console.log(JSON.stringify(res));
         
     })
 })
@@ -39,5 +38,19 @@ onMounted(() => {
 <style scoped lang="less">
 .task-item{
     width: 100%;
+    text-align: left;
+    padding: 0 10px;
+    display: flex;
+    height: 100%;
+    &::before{
+        content: '';
+        display: inline-block;
+        width: 1px;
+        height: 100%;
+        background-color: #363636;
+        margin-right: 10px;
+        padding-top: 0px;
+    }
 }
+
 </style>
