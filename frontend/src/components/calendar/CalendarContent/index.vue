@@ -16,23 +16,16 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType,toRef,onMounted } from 'vue';
+import { PropType,toRef } from 'vue';
 import { NGrid,NGi } from 'naive-ui';
 import type { TaskView } from '@/types';
-import { ConvertTaskView } from '../../../../wailsjs/go/app/App';
-import { model } from 'wailsjs/go/models';
 const props = defineProps({
     tasks: {
         type: Object as PropType<Array<TaskView> | undefined> | undefined,
     }
 })
 const tasks = toRef(props, 'tasks')
-onMounted(() => {
-    ConvertTaskView(tasks.value as Array<model.TaskView>).then((res) => {
-        // console.log(JSON.stringify(res));
-        
-    })
-})
+
 </script>
 
 <style scoped lang="less">
@@ -46,10 +39,10 @@ onMounted(() => {
         content: '';
         display: inline-block;
         width: 1px;
-        height: 100%;
+        height: 80%;
         background-color: #363636;
+        margin:auto 0 ;
         margin-right: 10px;
-        padding-top: 0px;
     }
 }
 

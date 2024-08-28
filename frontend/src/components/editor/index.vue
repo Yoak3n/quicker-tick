@@ -1,9 +1,9 @@
 <template>
   <div class="editor-wrapper">
     <editor-content :editor="rich" />
-    {{ props.data }}
     <div class="submit-button" @click="submit">
       <button>提交</button>
+      <button @click="test">test</button>
     </div>
   </div>
 </template>
@@ -13,7 +13,8 @@ import { Editor, EditorContent } from '@tiptap/vue-3'
 import {RichText} from "@/utils/rich_text"
 import { SetEditorContent } from ".";
 import { Task } from "@/types";
-import { model } from "wailsjs/go/models";
+import { ConvertTaskView } from "../../../wailsjs/go/app/App";
+import { model} from "../../../wailsjs/go/models";
 let rich =ref<Editor | undefined>()
 let result = ref<string>('')
 
@@ -24,8 +25,31 @@ onMounted(()=>{
       result.value = content;
     })
   // const content = ref<Content>([])
-  // rich.value?.commands.setContent(content,true)
+  if (props.data != undefined){
+    ConvertTaskView(props.data as model.TaskView[]).then((content)=>{
+      const a = JSON.stringify(content)
+      SetEditorContent(rich.value!,a)
+    })
+
+    
+
+  }  
 })
+const convertToHtml = ()=>{
+  
+}
+const test = ()=>{
+  const content = `        <ul data-type="taskList">
+          <li data-type="taskItem" data-checked="true">flour</li>
+          <li data-type="taskItem" data-checked="true">baking powder</li>
+          <li data-type="taskItem" data-checked="true">salt</li>
+          <li data-type="taskItem" data-checked="false">sugar</li>
+          <li data-type="taskItem" data-checked="false">milk</li>
+          <li data-type="taskItem" data-checked="false">eggs</li>
+          <li data-type="taskItem" data-checked="false">butter</li>
+        </ul>`
+  SetEditorContent(rich.value!,content)
+}
 onActivated(()=>{
   rich.value = RichText
   rich.value?.on('update', ({editor }) => {
@@ -42,7 +66,7 @@ const props = defineProps({
   },
   data:{
     type: Object as PropType<Array<Task>>,
-    default: () => {}
+    
   }
 })
 const submit = () => {
