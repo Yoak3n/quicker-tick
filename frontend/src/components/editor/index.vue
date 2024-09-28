@@ -28,27 +28,31 @@ onMounted(()=>{
   if (props.data != undefined){
     ConvertTaskView(props.data as model.TaskView[]).then((content)=>{
       const a = JSON.stringify(content)
-      SetEditorContent(rich.value!,a)
+      console.log(a);
     })
-
-    
-
   }  
 })
-const convertToHtml = ()=>{
-  
-}
+
 const test = ()=>{
-  const content = `        <ul data-type="taskList">
-          <li data-type="taskItem" data-checked="true">flour</li>
-          <li data-type="taskItem" data-checked="true">baking powder</li>
-          <li data-type="taskItem" data-checked="true">salt</li>
-          <li data-type="taskItem" data-checked="false">sugar</li>
-          <li data-type="taskItem" data-checked="false">milk</li>
-          <li data-type="taskItem" data-checked="false">eggs</li>
-          <li data-type="taskItem" data-checked="false">butter</li>
-        </ul>`
-  SetEditorContent(rich.value!,content)
+  if (props.data != undefined){
+    ConvertTaskView(props.data as model.TaskView[]).then((content)=>{
+      const a = JSON.stringify(content)
+      console.log(a);
+    })
+  }  
+  // const content = `        <ul data-type="taskList">
+  //         <li data-type="taskItem" data-checked="true">flour</li>
+  //         <li data-type="taskItem" data-checked="true">baking powder</li>
+  //         <li data-type="taskItem" data-checked="true">salt</li>
+  //         <li data-type="taskItem" data-checked="false">sugar</li>
+  //         <li data-type="taskItem" data-checked="false">milk</li>
+  //         <li data-type="taskItem" data-checked="false">eggs
+  //           <ul data-type="taskList">
+  //             <li data-type="taskItem" data-checked="false">milk</li>
+  //         </li>
+  //         <li data-type="taskItem" data-checked="false">butter</li>
+  //       <ul data-type="taskList">`
+  // SetEditorContent(rich.value!,content)
 }
 onActivated(()=>{
   rich.value = RichText
@@ -58,6 +62,7 @@ onActivated(()=>{
   })
 })
 onUnmounted(()=>{
+
 })
 const props = defineProps({
   callback: {

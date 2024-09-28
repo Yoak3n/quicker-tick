@@ -3,6 +3,7 @@ package od
 import (
 	"quicker-tick/internal/controller"
 	"quicker-tick/internal/model"
+	"strconv"
 	"strings"
 )
 
@@ -70,6 +71,37 @@ func ConvertToDoc(tasks []*model.TaskView) model.Item {
 		}
 	}
 	return item
+}
+
+func ConvertToHtmlString(item model.Item) (htmlString string) {
+
+	if item.Type == "doc" {
+		for _, child := range item.Content {
+			ConvertToHtmlString(child)
+		}
+	} else if item.Type == "taskList" {
+		htmlString = `<ul data-type="taskList">`
+		for _, child := range item.Content {
+			ConvertToHtmlString(child)
+		}
+		htmlString += `</ul>`
+	} else if item.Type == "taskItem" {
+		htmlString = `<li data-type="taskItem" data-checked="` + strconv.FormatBool(item.Attrs["checked"]) + `">`
+		for _, child := range item.Content {
+			ConvertToHtmlString(child)
+		}
+		htmlString += `</li>`
+	} else if item.Type == "paragraph" {
+		for _, child := range item.Content {
+			text := ConvertToHtmlString(child)
+			htmlString += text
+		}
+	} else if item.Type == "text" {
+		for _, child := range item.Content {
+			htmlString += child.Text
+		}
+	}
+	return htmlString
 }
 
 func convertToTaskList(task *model.TaskView) model.Item {

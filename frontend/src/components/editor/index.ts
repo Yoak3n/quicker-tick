@@ -1,5 +1,5 @@
 import { Task } from '@/types'
-
+import { model} from "../../../wailsjs/go/models";
 function ParseTaskList(content:Task) {
     
 }
