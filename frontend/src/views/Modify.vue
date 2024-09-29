@@ -17,14 +17,16 @@ import { onMounted,ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { NBreadcrumb, NBreadcrumbItem} from 'naive-ui';
 import Editor from '../components/editor/index.vue'
-import {AddTask,GetTasks,ConvertTaskView}from '../../wailsjs/go/app/App'
+import {AddTask,GetTasks}from '../../wailsjs/go/app/App'
 import { TaskView } from '@/types';
 
 const $route = useRoute();
 const date = $route.params.date as string;
 const getOutput = (data:string)=> {
     AddTask(data,date).then((res)=>{
-        alert(res)
+        if (res != ""){
+            alert(res)
+        }
     })
 }
 let data = ref<TaskView[]>()
