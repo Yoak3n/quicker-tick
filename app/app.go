@@ -51,6 +51,10 @@ func (a *App) ConvertTaskView(tasks []*model.TaskView) model.Item {
 	item := od.ConvertToDoc(tasks)
 	return item
 }
+func (a *App) ConvertTask(item model.Item) string {
+	htmlString := od.ConvertToHtmlString(item, false)
+	return htmlString
+}
 
 // Greet returns a greeting for the given name
 func (a *App) Greet(name string) string {

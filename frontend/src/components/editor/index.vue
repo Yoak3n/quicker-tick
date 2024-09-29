@@ -13,7 +13,7 @@ import { Editor, EditorContent } from '@tiptap/vue-3'
 import {RichText} from "@/utils/rich_text"
 import { SetEditorContent } from ".";
 import { Task } from "@/types";
-import { ConvertTaskView } from "../../../wailsjs/go/app/App";
+import { ConvertTaskView,ConvertTask } from "../../../wailsjs/go/app/App";
 import { model} from "../../../wailsjs/go/models";
 let rich =ref<Editor | undefined>()
 let result = ref<string>('')
@@ -29,6 +29,11 @@ onMounted(()=>{
     ConvertTaskView(props.data as model.TaskView[]).then((content)=>{
       const a = JSON.stringify(content)
       console.log(a);
+      ConvertTask(content).then((doc)=>{
+        console.log(doc);
+        
+        SetEditorContent(rich.value!,doc)
+      })
     })
   }  
 })
@@ -38,6 +43,10 @@ const test = ()=>{
     ConvertTaskView(props.data as model.TaskView[]).then((content)=>{
       const a = JSON.stringify(content)
       console.log(a);
+      ConvertTask(content).then((doc)=>{
+        console.log(doc);
+        SetEditorContent(rich.value!,doc)
+      })
     })
   }  
   // const content = `        <ul data-type="taskList">

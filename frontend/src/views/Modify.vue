@@ -23,7 +23,9 @@ import { TaskView } from '@/types';
 const $route = useRoute();
 const date = $route.params.date as string;
 const getOutput = (data:string)=> {
-    AddTask(data,date).then((res)=>{console.log(res);})
+    AddTask(data,date).then((res)=>{
+        alert(res)
+    })
 }
 let data = ref<TaskView[]>()
 onMounted(()=>{

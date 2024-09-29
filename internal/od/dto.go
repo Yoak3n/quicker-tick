@@ -73,33 +73,29 @@ func ConvertToDoc(tasks []*model.TaskView) model.Item {
 	return item
 }
 
-func ConvertToHtmlString(item model.Item) (htmlString string) {
-
+func ConvertToHtmlString(item model.Item, flag bool) (htmlString string) {
 	if item.Type == "doc" {
 		for _, child := range item.Content {
-			ConvertToHtmlString(child)
+			htmlString += ConvertToHtmlString(child, false)
 		}
-	} else if item.Type == "taskList" {
+	} else if item.Type == "taskList" && len(item.Content) > 0 {
 		htmlString = `<ul data-type="taskList">`
 		for _, child := range item.Content {
-			ConvertToHtmlString(child)
+			htmlString += ConvertToHtmlString(child, true)
 		}
 		htmlString += `</ul>`
 	} else if item.Type == "taskItem" {
 		htmlString = `<li data-type="taskItem" data-checked="` + strconv.FormatBool(item.Attrs["checked"]) + `">`
 		for _, child := range item.Content {
-			ConvertToHtmlString(child)
+			htmlString += ConvertToHtmlString(child, false)
 		}
 		htmlString += `</li>`
-	} else if item.Type == "paragraph" {
+	} else if item.Type == "paragraph" && !flag {
 		for _, child := range item.Content {
-			text := ConvertToHtmlString(child)
-			htmlString += text
+			htmlString += ConvertToHtmlString(child, false)
 		}
 	} else if item.Type == "text" {
-		for _, child := range item.Content {
-			htmlString += child.Text
-		}
+		htmlString += item.Text
 	}
 	return htmlString
 }

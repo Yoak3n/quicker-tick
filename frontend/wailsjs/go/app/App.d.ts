@@ -7,6 +7,8 @@ export function AddTask(arg1:string,arg2:string):Promise<string>;
 
 export function BoardcastCtx(arg1:context.Context):Promise<void>;
 
+export function ConvertTask(arg1:model.Item):Promise<string>;
+
 export function ConvertTaskView(arg1:Array<model.TaskView>):Promise<model.Item>;
 
 export function GetTasks(arg1:Array<string>):Promise<{[key: string]: Array<model.TaskView>}>;

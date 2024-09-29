@@ -1,6 +1,6 @@
 <template>
     <div class="calendar-wrapper">
-        <n-card :bordered="false">
+        <n-card :bordered="false" content-style="padding-top:0;">
             <div class="calendar-header">
                 <div class="header-action">
                     <div class="nav">
@@ -60,14 +60,10 @@
             <div class="calendar-body">
                 <n-grid :cols="7">
                     <n-gi v-for="i in page_item_count">
-                        <CalendarButton 
+                        <CalendarButton  v-if="i < current_month_first_day" 
                         :key="`${y}-${m - 1}-${last_month_count - current_month_first_day + i +1}`"
-                        :date="`${y}-${m - 1}-${last_month_count - current_month_first_day + i +1}`"
-                        v-if="i < current_month_first_day" />
-                        <CalendarButton
-                        
-                            v-else-if="i >= current_month_first_day && i < current_month_count + current_month_first_day"
-                            
+                        :date="`${y}-${m - 1}-${last_month_count - current_month_first_day + i +1}`"/>
+                        <CalendarButton v-else-if="i >= current_month_first_day && i < current_month_count + current_month_first_day"
                             :date="`${y}-${m}-${i - current_month_first_day+1}`" 
                             @click="()=>{
                                 const target = `${y}-${m}-${i - current_month_first_day+1 }`
@@ -77,10 +73,7 @@
                             :key="`${y}-${m}-${i - current_month_first_day+1}`"
                             :current_month="true"
                             :isToday="computeIsToday(`${y}-${m}-${i - current_month_first_day+1}`)"
-                            :tasks="current_month_data.get(`${y}-${m}-${i - current_month_first_day}`)"
-                             >
-                            
-                        </CalendarButton>
+                            :tasks="current_month_data.get(`${y}-${m}-${i - current_month_first_day+1}`)" />
                         <CalendarButton v-else
                         :key="`${y}-${m + 1}-${i - current_month_count - current_month_first_day +1}`"
                         :date="`${y}-${m + 1}-${i - current_month_count - current_month_first_day +1}`" />
@@ -156,7 +149,6 @@ const backToToday = ()=>{
     const today = new Date()
     y.value = today.getFullYear()
     m.value = today.getMonth() + 1
-    render_view()
     nextTick(()=>{
         render_view()
     })
@@ -199,7 +191,6 @@ const nextMonth = ()=> {
 <style scoped lang="less">
 .calendar-wrapper {
     text-align: center;
-
     .calendar-header{
         margin-bottom: 10px;
         .header-action{
