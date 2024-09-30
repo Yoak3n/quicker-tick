@@ -44,6 +44,9 @@ const $router = useRouter()
 </script>
 
 <style scoped lang="less">
+.header{
+  cursor: default;
+}
 .buttons{
   button {
     margin: 0 0.5rem;

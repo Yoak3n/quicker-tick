@@ -3,6 +3,9 @@
         <n-breadcrumb-item href="/">
              首页
           </n-breadcrumb-item>
+          <n-breadcrumb-item href="/dashboard">
+            日历视图
+          </n-breadcrumb-item>
           <n-breadcrumb-item>
             {{ date }}任务清单
           </n-breadcrumb-item>
@@ -25,7 +28,8 @@ const date = $route.params.date as string;
 const getOutput = (data:string)=> {
     AddTask(data,date).then((res)=>{
         if (res != ""){
-            alert(res)
+            console.log(res);
+            
         }
     })
 }
