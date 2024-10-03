@@ -27,12 +27,7 @@ onMounted(()=>{
   // const content = ref<Content>([])
   if (props.data != undefined){
     ConvertTaskView(props.data as model.TaskView[]).then((content)=>{
-      const a = JSON.stringify(content)
-      console.log(a);
-      ConvertTask(content).then((doc)=>{
-        console.log(doc);
-        SetEditorContent(rich.value!,doc)
-      })
+      SetEditorContent(rich.value!,content)
     })
   }  
 })
@@ -40,27 +35,9 @@ onMounted(()=>{
 const test = ()=>{
   if (props.data != undefined){
     ConvertTaskView(props.data as model.TaskView[]).then((content)=>{
-      const a = JSON.stringify(content)
-      console.log(a);
-      ConvertTask(content).then((doc)=>{
-        console.log(doc);
-        SetEditorContent(rich.value!,doc)
-      })
+      SetEditorContent(rich.value!,content)
     })
-  }  
-  // const content = `        <ul data-type="taskList">
-  //         <li data-type="taskItem" data-checked="true">flour</li>
-  //         <li data-type="taskItem" data-checked="true">baking powder</li>
-  //         <li data-type="taskItem" data-checked="true">salt</li>
-  //         <li data-type="taskItem" data-checked="false">sugar</li>
-  //         <li data-type="taskItem" data-checked="false">milk</li>
-  //         <li data-type="taskItem" data-checked="false">eggs
-  //           <ul data-type="taskList">
-  //             <li data-type="taskItem" data-checked="false">milk</li>
-  //         </li>
-  //         <li data-type="taskItem" data-checked="false">butter</li>
-  //       <ul data-type="taskList">`
-  // SetEditorContent(rich.value!,content)
+  } 
 }
 onActivated(()=>{
   rich.value = RichText

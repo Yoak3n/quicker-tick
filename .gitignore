@@ -1,6 +1,9 @@
 build/bin
 node_modules
 frontend/dist
+wailsjs/
+
 doc.json
 data/
 installer/
+

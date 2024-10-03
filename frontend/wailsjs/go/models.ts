@@ -1,10 +1,11 @@
 export namespace model {
 	
 	export class Item {
+	    id?: string;
 	    type: string;
 	    content?: Item[];
 	    text?: string;
-	    attrs?: {[key: string]: boolean};
+	    attrs?: {[key: string]: any};
 	
 	    static createFrom(source: any = {}) {
 	        return new Item(source);
@@ -12,6 +13,7 @@ export namespace model {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
 	        this.type = source["type"];
 	        this.content = this.convertValues(source["content"], Item);
 	        this.text = source["text"];
