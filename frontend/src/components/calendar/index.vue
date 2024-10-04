@@ -67,7 +67,6 @@
                             :date="`${y}-${m}-${i - current_month_first_day+1}`" 
                             @click="()=>{
                                 const target = `${y}-${m}-${i - current_month_first_day+1 }`
-                                console.log(target);
                                 $router.push({name:'Modify',params:{date:target}})
                             }"
                             :key="`${y}-${m}-${i - current_month_first_day+1}`"

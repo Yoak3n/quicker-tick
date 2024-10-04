@@ -125,9 +125,8 @@ func convertToTaskList(task *model.TaskView) model.Item {
 			Content: []model.Item{},
 		})
 		for _, child := range task.Children {
-			item.Content[1].Content = append(item.Content, convertToTaskList(&child))
+			item.Content[1].Content = append(item.Content[1].Content, convertToTaskList(&child))
 		}
 	}
-
 	return item
 }

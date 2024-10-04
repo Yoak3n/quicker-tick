@@ -13,28 +13,32 @@ import { Editor, EditorContent } from '@tiptap/vue-3'
 import {RichText} from "@/utils/rich_text"
 import { SetEditorContent } from ".";
 import { Task } from "@/types";
-import { ConvertTaskView,ConvertTask } from "../../../wailsjs/go/app/App";
+import { ConvertTaskView,ConvertTask,GetTasks } from "../../../wailsjs/go/app/App";
 import { model} from "../../../wailsjs/go/models";
 let rich =ref<Editor | undefined>()
 let result = ref<string>('')
+let data = ref<Array<Task>>([]) 
 
-onMounted(()=>{
+
+onMounted(async()=>{
+  let all_tasks = await GetTasks([props.date])
+  data.value = all_tasks[props.date]
   rich.value = RichText
   rich.value?.on('update', ({editor }) => {
       const content = JSON.stringify(editor.getJSON())
       result.value = content;
     })
   // const content = ref<Content>([])
-  if (props.data != undefined){
-    ConvertTaskView(props.data as model.TaskView[]).then((content)=>{
+  if (data.value != undefined){
+    ConvertTaskView(data.value as model.TaskView[]).then((content)=>{
       SetEditorContent(rich.value!,content)
     })
   }  
 })
 
 const test = ()=>{
-  if (props.data != undefined){
-    ConvertTaskView(props.data as model.TaskView[]).then((content)=>{
+  if (data.value != undefined){
+    ConvertTaskView(data.value as model.TaskView[]).then((content)=>{
       SetEditorContent(rich.value!,content)
     })
   } 
@@ -45,6 +49,11 @@ onActivated(()=>{
     const content = JSON.stringify(editor.getJSON())
     result.value = content;
   })
+  if (data.value != undefined){
+    ConvertTaskView(data.value as model.TaskView[]).then((content)=>{
+      SetEditorContent(rich.value!,content)
+    })
+  }
 })
 onUnmounted(()=>{
 
@@ -54,9 +63,9 @@ const props = defineProps({
     type: Function,
     default: () => {}
   },
-  data:{
-    type: Object as PropType<Array<Task>>,
-    
+  date:{
+    type: String,
+    required: true,
   }
 })
 const submit = () => {
