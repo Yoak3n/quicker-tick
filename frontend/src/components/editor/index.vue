@@ -37,11 +37,7 @@ onMounted(async()=>{
 })
 
 const test = ()=>{
-  if (data.value != undefined){
-    ConvertTaskView(data.value as model.TaskView[]).then((content)=>{
-      SetEditorContent(rich.value!,content)
-    })
-  } 
+  console.log(rich.value?.getJSON());
 }
 onActivated(()=>{
   rich.value = RichText

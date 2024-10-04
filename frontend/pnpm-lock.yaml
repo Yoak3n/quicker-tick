@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@tiptap-pro/extension-unique-id':
+        specifier: ^2.11.9
+        version: 2.11.9(@tiptap/core@2.5.7(@tiptap/pm@2.5.7))(@tiptap/pm@2.5.7)
       '@tiptap/core':
         specifier: ^2.5.7
         version: 2.5.7(@tiptap/pm@2.5.7)
@@ -132,6 +135,12 @@ packages:
 
   '@remirror/core-constants@2.0.2':
     resolution: {integrity: sha512-dyHY+sMF0ihPus3O27ODd4+agdHMEmuRdyiZJ2CCWjPV5UFmn17ZbElvk6WOGVE4rdCJKZQCrPV2BcikOMLUGQ==}
+
+  '@tiptap-pro/extension-unique-id@2.11.9':
+    resolution: {integrity: sha512-+pfw1CdZr2kWJxTpaQM9Z3i/78uklDANKiyTnsr2jEGp/pl6Z1ANySV+p3SNfV0HWLQ84niavm5jEXeHvxGbFw==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+      '@tiptap/pm': ^2.0.0
 
   '@tiptap/core@2.5.7':
     resolution: {integrity: sha512-8fBW+yBRSc2rEDOs6P+53kF0EAmSv17M4ruQBABo18Nt5qIyr/Uo4p+/E4NkV30bKgKI1zyq1dPeznDplSseqQ==}
@@ -814,6 +823,10 @@ packages:
   uc.micro@2.1.0:
     resolution: {integrity: sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==}
 
+  uuid@10.0.0:
+    resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
+    hasBin: true
+
   vdirs@0.1.8:
     resolution: {integrity: sha512-H9V1zGRLQZg9b+GdMk8MXDN2Lva0zx72MPahDKc30v+DtwKjfyOSXWRIX4t2mhDubM1H09gPhWeth/BJWPHGUw==}
     peerDependencies:
@@ -931,6 +944,12 @@ snapshots:
   '@popperjs/core@2.11.8': {}
 
   '@remirror/core-constants@2.0.2': {}
+
+  '@tiptap-pro/extension-unique-id@2.11.9(@tiptap/core@2.5.7(@tiptap/pm@2.5.7))(@tiptap/pm@2.5.7)':
+    dependencies:
+      '@tiptap/core': 2.5.7(@tiptap/pm@2.5.7)
+      '@tiptap/pm': 2.5.7
+      uuid: 10.0.0
 
   '@tiptap/core@2.5.7(@tiptap/pm@2.5.7)':
     dependencies:
@@ -1642,6 +1661,8 @@ snapshots:
   typescript@4.9.5: {}
 
   uc.micro@2.1.0: {}
+
+  uuid@10.0.0: {}
 
   vdirs@0.1.8(vue@3.4.34(typescript@4.9.5)):
     dependencies:
