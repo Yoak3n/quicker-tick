@@ -3,7 +3,7 @@
         <n-breadcrumb-item href="/">
              首页
           </n-breadcrumb-item>
-          <n-breadcrumb-item href="/dashboard">
+          <n-breadcrumb-item @click="()=>$router.push('/dashboard')">
             日历视图
           </n-breadcrumb-item>
           <n-breadcrumb-item>
@@ -11,18 +11,19 @@
           </n-breadcrumb-item>
     </n-breadcrumb>
     <div class="modify-wrapper">
-        <editor :callback="getOutput" :data="data" />
+        <editor :callback="getOutput" :date="date"/>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted,ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { onMounted,ref,onBeforeMount } from 'vue';
+import { useRoute,useRouter } from 'vue-router';
 import { NBreadcrumb, NBreadcrumbItem} from 'naive-ui';
 import Editor from '../components/editor/index.vue'
-import {AddTask,GetTasks}from '../../wailsjs/go/app/App'
+import {AddTask}from '../../wailsjs/go/app/App'
 import { TaskView } from '@/types';
 
+const $router = useRouter();
 const $route = useRoute();
 const date = $route.params.date as string;
 const getOutput = (data:string)=> {
@@ -33,12 +34,9 @@ const getOutput = (data:string)=> {
         }
     })
 }
-let data = ref<TaskView[]>()
-onMounted(()=>{
-    GetTasks([date]).then((v)=>{
-        data.value = v[date]
-    });
-})
+
+
+
 </script>
 
 <style scoped lang="less">

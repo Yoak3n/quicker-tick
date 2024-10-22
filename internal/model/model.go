@@ -38,9 +38,10 @@ type (
 		Root        bool       `json:"root"`
 	}
 	Item struct {
-		Type    string          `json:"type"`
-		Content []Item          `json:"content,omitempty"`
-		Text    string          `json:"text,omitempty"`
-		Attrs   map[string]bool `json:"attrs,omitempty"`
+		Id      string         `json:"id,omitempty"`
+		Type    string         `json:"type"`
+		Content []Item         `json:"content,omitempty"`
+		Text    string         `json:"text,omitempty"`
+		Attrs   map[string]any `json:"attrs,omitempty"`
 	}
 )

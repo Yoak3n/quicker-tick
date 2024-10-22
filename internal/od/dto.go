@@ -85,7 +85,7 @@ func ConvertToHtmlString(item model.Item, flag bool) (htmlString string) {
 		}
 		htmlString += `</ul>`
 	} else if item.Type == "taskItem" {
-		htmlString = `<li data-type="taskItem" data-checked="` + strconv.FormatBool(item.Attrs["checked"]) + `">`
+		htmlString = `<li data-type="taskItem" data-checked="` + strconv.FormatBool(item.Attrs["checked"].(bool)) + `" id="` + (item.Attrs["id"].(string)) + `">`
 		for _, child := range item.Content {
 			htmlString += ConvertToHtmlString(child, false)
 		}
@@ -114,8 +114,9 @@ func convertToTaskList(task *model.TaskView) model.Item {
 				},
 			},
 		},
-		Attrs: map[string]bool{
+		Attrs: map[string]any{
 			"checked": task.Checked,
+			"id":      task.ID,
 		},
 	}
 	if len(task.Children) > 0 {
@@ -124,9 +125,8 @@ func convertToTaskList(task *model.TaskView) model.Item {
 			Content: []model.Item{},
 		})
 		for _, child := range task.Children {
-			item.Content[1].Content = append(item.Content, convertToTaskList(&child))
+			item.Content[1].Content = append(item.Content[1].Content, convertToTaskList(&child))
 		}
 	}
-
 	return item
 }
