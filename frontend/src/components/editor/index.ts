@@ -4,7 +4,15 @@ function ParseTaskList(content:Task) {
     
 }
 
-import type{Editor} from '@tiptap/vue-3'
-export function SetEditorContent(editor:Editor,content:string) {
-    editor.commands.setContent(content)
+interface TaskModel {
+    id?: string,
+    title?: string,
+    description: string,
+    status: string,
+    priority: string,
+    dueDate: string,
+    tags: string[],
+    subtasks: TaskModel[],
+    parentTask: TaskModel | null
 }
+export type TaskView = TaskModel
