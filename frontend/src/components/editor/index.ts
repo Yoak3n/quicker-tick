@@ -11,6 +11,7 @@ interface TaskModel {
     status: string,
     priority: string,
     dueDate: string,
+    action:string[],
     tags: string[],
     subtasks: TaskModel[],
     parentTask: TaskModel | null
