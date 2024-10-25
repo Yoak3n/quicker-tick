@@ -12,18 +12,19 @@ import {
   NGrid,
   NGi,
   NUpload,
-  NUploadDragger
+  NUploadDragger,
+  NButton
 } from 'naive-ui';
 import type { TaskView } from './index'
-import { statusOptions, renderOption } from './options'
+import { statusOptions, priorityOptions, renderOption } from './options'
 import { ArchiveOutline } from '@vicons/ionicons5'
 
 
 let model = reactive<TaskView>({
   title: '任务名称',
   description: '任务描述',
-  status: '未开始',
-  priority: '普通',
+  status: 0,
+  priority: 0,
   dueDate: new Date().toISOString().slice(0, 10).replace('/', '-'),
   action: [],
   tags: [],
@@ -58,7 +59,7 @@ let model = reactive<TaskView>({
           <n-form-item path="dueDate" label="截止日期">
             <n-date-picker :default-calendar-start-time="new Date().getTime()"
               :default-time="new Date().toLocaleTimeString()" placeholder="请选择截止日期" type="datetime"
-              @update:formatted-value="(value) => { model.dueDate = value }">
+              @update:formatted-value="(value) => { model.dueDate = value }" format="yyyy-MM-dd HH:mm">
             </n-date-picker>
           </n-form-item>
         </n-gi>
@@ -71,20 +72,31 @@ let model = reactive<TaskView>({
         </n-gi>
         <n-gi>
           <n-form-item path="priority" label="优先级" class="priority">
-            <n-input v-model:value="model.priority" placeholder="优先级" />
+            <n-select v-model:value="model.priority" :options="priorityOptions" :render-label="renderOption" />
           </n-form-item>
         </n-gi>
       </n-grid>
       <n-form-item label="快捷操作" path="action">
-        <n-upload>
-          <n-upload-dragger>
-            <div style="margin-bottom: 12px">
-              <n-icon size="48" :depth="3">
-                <ArchiveOutline />
-              </n-icon>
-            </div>
-          </n-upload-dragger>
-        </n-upload>
+        <n-grid :cols="3">
+          <n-gi>
+            <n-select />
+          </n-gi>
+          <n-gi></n-gi>
+          <n-gi>
+            <n-upload accept=".doc,.docx">
+              <n-upload-dragger>
+                <div style="margin-bottom: 12px">
+                  <n-icon size="48" :depth="3">
+                    <ArchiveOutline />
+                  </n-icon>
+                </div>
+              </n-upload-dragger>
+            </n-upload>
+          </n-gi>
+        </n-grid>
+      </n-form-item>
+      <n-form-item>
+        <n-button>提交</n-button>
       </n-form-item>
     </n-form>
     <div>
