@@ -65,10 +65,7 @@
                         :date="`${y}-${m - 1}-${last_month_count - current_month_first_day + i +1}`"/>
                         <CalendarButton v-else-if="i >= current_month_first_day && i < current_month_count + current_month_first_day"
                             :date="`${y}-${m}-${i - current_month_first_day+1}`" 
-                            @click="()=>{
-                                const target = `${y}-${m}-${i - current_month_first_day+1 }`
-                                $router.push({name:'Modify',params:{date:target}})
-                            }"
+                            @click="jump_to_date(i)"
                             :key="`${y}-${m}-${i - current_month_first_day+1}`"
                             :current_month="true"
                             :isToday="computeIsToday(`${y}-${m}-${i - current_month_first_day+1}`)"
@@ -101,7 +98,11 @@ const $router = useRouter()
 let ds = ref(props.date)
 let y = ref<number>(0)
 let m = ref<number>(0)
-
+const jump_to_date = (index:number)=>{
+    const target = `${y}-${m}-${index - current_month_first_day.value+1 }`
+    // $router.push({name:'Modify',params:{date:target}})
+    $router.push('/modify/'+target)
+}
 
 let current_year = ref<number>(0)
 let current_month = ref<number>(0)

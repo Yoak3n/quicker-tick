@@ -2,7 +2,7 @@
     <div class="calendar-button-wrapper">
         <button class="calendar-button" 
         :disabled="!props.current_month">
-            <n-flex vertical wrap :size="0">
+            <n-flex vertical wrap  align="space-around" style="height: 90%;">
                 <div class="calendar-button-date"
                 :style="props.isToday?'color: red': ''"
                 >
@@ -64,9 +64,11 @@ onMounted(()=>{
             background-color: #117af2;
             color: #fff;
         }
+
         &:focus + &:active{
             background-color: #117af2;
             color: #fff;
+
         }
         &:disabled{
             background-color: #fff;
@@ -82,11 +84,21 @@ onMounted(()=>{
         .calendar-button-content{
             height: 80%;
         }
+        &:not(:disabled)::after{
+            content: '';
+            display: block;
+            width: 50%;
+            height: 1px;
+            background-color: #ccc;
+            margin:0 auto;
+        }
     }
     .active{
         background-color: #117af2;
         color: #fff;
     }
+
+
 }
 
 </style>

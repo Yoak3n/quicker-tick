@@ -53,9 +53,14 @@ export const statusOptions:Array<SelectOption> = [
 
 export function renderOption (option: SelectOption): VNodeChild {
     return [
-      h(NTag, { 
-        type: option.type as 'success' | 'warning' | 'error'|'info'}, 
-        option.label?.toString()),
+      h(NTag, 
+        { 
+          type: option.type as 'success' | 'warning' | 'error'|'info'
+        }, 
+        {
+          default: () => option.label?.toString() 
+        },
+      ),
     ]
 
 }
