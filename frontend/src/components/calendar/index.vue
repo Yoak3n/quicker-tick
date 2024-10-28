@@ -100,7 +100,7 @@ let y = ref<number>(0)
 let m = ref<number>(0)
 const jump_to_date = (index:number)=>{
     const target = `${y.value}-${m.value}-${index - current_month_first_day.value+1 }`
-    $router.push({name:'Modify',params:{date:target}})
+    $router.push({name:'Dashboard',params:{date:target}})
 }
 
 let current_year = ref<number>(0)

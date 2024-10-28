@@ -118,9 +118,6 @@ const submitTask = () => {
         <n-button type="success" @click="submitTask">提交</n-button>
       </n-form-item>
     </n-form>
-    <div>
-      {{ JSON.stringify(model, null, 2) }}
-    </div>
   </n-card>
 
 

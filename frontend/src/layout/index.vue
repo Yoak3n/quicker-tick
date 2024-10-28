@@ -12,7 +12,7 @@
                     <MenuOutline/>
                 </n-icon>
                 <template #menu>
-                    <n-float-button @click="$router.push('/dashboard')" shape="circle" type="primary">
+                    <n-float-button @click="$router.push('/calendar')" shape="circle" type="primary">
                         <n-icon>
                             <CalendarOutline/>
                         </n-icon>

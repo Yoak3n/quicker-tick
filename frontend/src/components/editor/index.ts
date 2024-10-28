@@ -6,9 +6,9 @@ export function RandomColor(){
 
 export function randomTagColor() {
     const color = {
-      color: RandomColor(),
+      // color: RandomColor(),
     //   textColor: RandomColor(),
-    //   borderColor: RandomColor(),
+      borderColor: RandomColor(),
     }
     console.log(color);
     return color

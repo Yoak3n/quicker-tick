@@ -1,19 +1,20 @@
 <template>
     <div class="dashboard-wrapper">
-        <Calendar 
-        :date="value"
-        />
+
     </div>
 </template>
 
 <script lang="ts" setup>
-import Calendar from '@/components/calendar/index.vue'
+import {onMounted} from "vue";
+import {useRoute} from "vue-router";
 
-const date = new Date()
-const current_month =  date.getMonth()+ 1
-const current_year = date.getFullYear()
+const $route = useRoute();
 
-const value = `${current_year}-${current_month}`
+onMounted(() => {
+    console.log($route);
+})
+
+
 
 </script>
 
