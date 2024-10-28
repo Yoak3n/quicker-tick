@@ -22,15 +22,15 @@ import { NBreadcrumb, NBreadcrumbItem} from 'naive-ui';
 import Editor from '../components/editor/index.vue'
 import {AddTask}from '../../wailsjs/go/app/App'
 import { TaskView } from '@/types';
+import { model } from 'wailsjs/go/models';
 
 const $router = useRouter();
 const $route = useRoute();
 const date = $route.params.date as string;
-const getOutput = (data:string)=> {
-    AddTask(data,date).then((res)=>{
+const getOutput = (data:TaskView)=> {
+    AddTask(data as model.TaskView).then((res)=>{
         if (res != ""){
             console.log(res);
-            
         }
     })
 }

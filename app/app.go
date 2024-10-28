@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	"quicker-tick/internal/controller"
 	"quicker-tick/internal/model"
 	"quicker-tick/internal/od"
 )
@@ -34,11 +35,9 @@ func (a *App) BoardcastCtx(ctx *context.Context) {
 		}
 	}
 }
-func (a *App) AddTask(object string, date string) string {
-	err := od.UnmashalRawString(object, date)
-	if err != nil {
-		return err.Error()
-	}
+func (a *App) AddTask(object model.TaskView) string {
+	r := od.ObjectToTaskTable(&object)
+	controller.CreateTask(r)
 	return ""
 }
 

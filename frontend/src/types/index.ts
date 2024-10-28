@@ -1,27 +1,24 @@
-export interface TaskView {
-    id: string;
-    description: string;
-    checked: boolean;
-    children: TaskView[];
-    action:string,
-    root: boolean;
+interface ActionModel {
+    id: string,
+    name: string,
+    description: string,
+    icon?: string,
+    command: string,
 }
-export type Task  = TaskView
 
-interface Attrs {
-    [key: string]: string;
+
+interface TaskModel {
+    id?: string,
+    title?: string,
+    description: string,
+    status: number,
+    priority: number,
+    due_date: string,
+    actions:Action[],
+    tags: string[],
+    children: TaskView[],
+    root: boolean,
+    checked: boolean,
 }
-export enum ItemType {
-    Doc = "doc",
-    TaskList = "taskList",
-    TaskItem = "taskItem",
-    Paragraph = "paragraph",
-    Text = "text",
-}
-export type Item = DocJson;
-export interface DocJson {
-    type: ItemType;
-    content: Array<Item>;
-    attrs?:Attrs;
-    text?: string;
-}
+export type TaskView = TaskModel
+export type Action = ActionModel

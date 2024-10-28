@@ -24,11 +24,11 @@ func GetTasks(dates []string) map[string][]*model.TaskView {
 				ID:          t.ID,
 				Description: t.Description,
 				Checked:     t.Checked,
-				Action:      t.Action,
-				Root:        true,
+				// Action:      t.Action,
+				Root: true,
 			}
 			ParseTasksChildren(t, &query, taskView)
-			view[t.Date] = append(view[t.Date], taskView)
+			view[t.DueDate] = append(view[t.DueDate], taskView)
 		}
 	}
 	return view
@@ -43,12 +43,12 @@ func ParseTasksChildren(task model.TasksTable, query *map[string]model.TasksTabl
 				ID:          child.ID,
 				Description: child.Description,
 				Checked:     child.Checked,
-				Action:      child.Action,
+				// Actions:      child.Actions,
 			}
 			if len(child.Children) > 0 {
 				ParseTasksChildren(child, query, &childView)
 			}
-			tt.Children = append(tt.Children, childView)
+			tt.Children = append(tt.Children, &childView)
 		}
 	}
 }
@@ -125,7 +125,7 @@ func convertToTaskList(task *model.TaskView) model.Item {
 			Content: []model.Item{},
 		})
 		for _, child := range task.Children {
-			item.Content[1].Content = append(item.Content[1].Content, convertToTaskList(&child))
+			item.Content[1].Content = append(item.Content[1].Content, convertToTaskList(child))
 		}
 	}
 	return item

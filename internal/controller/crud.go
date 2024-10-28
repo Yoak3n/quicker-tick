@@ -20,7 +20,7 @@ func UpdateTaskAsRoot(id string) {
 func ReadTasksByDate(date []string) []model.TasksTable {
 	db := database.GetDB()
 	var tasks []model.TasksTable
-	db.Where("date IN ?", date).Find(&tasks)
+	db.Where("due_date IN ?", date).Find(&tasks)
 	return tasks
 
 }

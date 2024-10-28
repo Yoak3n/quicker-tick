@@ -15,9 +15,22 @@ import {
   NUploadDragger,
   NButton
 } from 'naive-ui';
-import type { TaskView } from './index'
-import { statusOptions, priorityOptions, renderOption } from './options'
+import type { TaskView } from '@/types'
+import { RandomColor } from '.';
+import { statusOptions, priorityOptions, renderOption,renderDynamicTag } from './options'
 import { ArchiveOutline } from '@vicons/ionicons5'
+
+
+const props = defineProps({
+  callback: {
+    type: Function,
+    default: () => {}
+  },
+  date:{
+    type: String,
+    required: true,
+  }
+})
 
 
 let model = reactive<TaskView>({
@@ -25,12 +38,18 @@ let model = reactive<TaskView>({
   description: '任务描述',
   status: 0,
   priority: 0,
-  dueDate: new Date().toISOString().slice(0, 10).replace('/', '-'),
-  action: [],
+  due_date: new Date().toISOString().slice(0, 10).replace('/', '-'),
+  actions: [],
   tags: [],
-  subtasks: [],
-  parentTask: null,
+  children: [],
+  root: false,
+  checked: false,
 })
+
+const submitTask = () => {
+  props.callback(model)
+}
+
 
 
 
@@ -52,14 +71,14 @@ let model = reactive<TaskView>({
       <n-grid :cols="2">
         <n-gi>
           <n-form-item path="tags" label="标签">
-            <n-dynamic-tags v-model:value="model.tags" />
+            <n-dynamic-tags v-model:value="model.tags" :render-tag="renderDynamicTag" />
           </n-form-item>
         </n-gi>
         <n-gi>
           <n-form-item path="dueDate" label="截止日期">
             <n-date-picker :default-calendar-start-time="new Date().getTime()"
               :default-time="new Date().toLocaleTimeString()" placeholder="请选择截止日期" type="datetime"
-              @update:formatted-value="(value) => { model.dueDate = value }" format="yyyy-MM-dd HH:mm">
+              @update:formatted-value="(value) => { model.due_date = value }" format="yyyy-MM-dd HH:mm">
             </n-date-picker>
           </n-form-item>
         </n-gi>
@@ -96,7 +115,7 @@ let model = reactive<TaskView>({
         </n-grid>
       </n-form-item>
       <n-form-item>
-        <n-button>提交</n-button>
+        <n-button type="success" @click="submitTask">提交</n-button>
       </n-form-item>
     </n-form>
     <div>

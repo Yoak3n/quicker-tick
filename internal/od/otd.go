@@ -10,6 +10,33 @@ import (
 	"github.com/tidwall/gjson"
 )
 
+func ObjectToTaskTable(o *model.TaskView) *model.TasksTable {
+	record := &model.TasksTable{
+		Title:       o.Title,
+		Description: o.Description,
+		Checked:     o.Checked,
+		Priority:    o.Priority,
+		Status:      o.Status,
+		DueDate:     o.DueDate,
+	}
+	if o.ID != "" {
+		record.ID = o.ID
+	} else {
+		record.ID = uuid.NewString()
+	}
+	if len(o.Children) > 0 {
+		ids := make([]string, 0)
+		for _, v := range o.Children {
+			ids = append(ids, v.ID)
+		}
+		record.Children = strings.Join(ids, ",")
+	}
+	if len(o.Tags) > 0 {
+		record.Tags = strings.Join(o.Tags, ",")
+	}
+	return record
+}
+
 // 解析json
 func UnmashalRawString(object string, date string) error {
 	result := gjson.Parse(object)
@@ -35,8 +62,8 @@ func unmashalTaskList(result gjson.Result, date string) []*model.Task {
 	for _, v := range content {
 		if t := v.Get("type").String(); t == "taskItem" {
 			task := model.Task{
-				ID:   uuid.NewString(),
-				Date: date,
+				ID: uuid.NewString(),
+				// Date: date,
 			}
 			task.Checked = v.Get("attrs.checked").Bool()
 			content1 := v.Get("content").Array()
@@ -62,7 +89,7 @@ func unmashalTaskList(result gjson.Result, date string) []*model.Task {
 				Checked:     task.Checked,
 				Root:        task.Root,
 				Action:      task.Action,
-				Date:        task.Date,
+				// Date:        task.Date,
 			}
 			controller.CreateTask(taskRecord)
 		}

@@ -86,7 +86,7 @@ import { NCard, NGrid, NGi,NIcon } from 'naive-ui';
 import { useRouter } from 'vue-router';
 import {ChevronBack,ChevronForward} from '@vicons/ionicons5'
 import CalendarButton from './CalendarButton/index.vue'
-import type { Task} from '@/types';
+import type { TaskView} from '@/types';
 import {GetTasks}from '../../../wailsjs/go/app/App'
 const props = defineProps({
     date: {
@@ -99,9 +99,8 @@ let ds = ref(props.date)
 let y = ref<number>(0)
 let m = ref<number>(0)
 const jump_to_date = (index:number)=>{
-    const target = `${y}-${m}-${index - current_month_first_day.value+1 }`
-    // $router.push({name:'Modify',params:{date:target}})
-    $router.push('/modify/'+target)
+    const target = `${y.value}-${m.value}-${index - current_month_first_day.value+1 }`
+    $router.push({name:'Modify',params:{date:target}})
 }
 
 let current_year = ref<number>(0)
@@ -110,7 +109,7 @@ let current_date = ref<number>(0)
 let last_month_count = ref<number>(0)
 let current_month_count = ref<number>(0)
 let current_month_first_day = ref<number>(0)
-let current_month_data = ref<Map<string,Array<Task>>>(new Map())
+let current_month_data = ref<Map<string,Array<TaskView>>>(new Map())
 onMounted(()=>{
     const ym = ds.value.split('-')
     y.value = Number(ym[0])
@@ -133,18 +132,17 @@ const render_view = async()=> {
     }
     
     GetTasks(dates).then((res)=>{
-        
         dates.forEach((date)=>{
-            let views:Array<Task> = []
+            let views:Array<TaskView> = []
             const temp =res[date]
             if (temp != undefined) {
                 views = temp
                 current_month_data.value.set(date,views)
             }
         })
-       
     })
 }
+
 const backToToday = ()=>{
     const today = new Date()
     y.value = today.getFullYear()

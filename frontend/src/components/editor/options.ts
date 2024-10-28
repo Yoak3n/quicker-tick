@@ -2,7 +2,7 @@ import {h} from 'vue'
 import type { VNodeChild } from 'vue'
 import { NTag } from 'naive-ui'
 import type { SelectOption } from 'naive-ui'
-
+import { randomTagColor } from '.'
 export const priorityOptions:Array<SelectOption> = [
     {
       label: '低',
@@ -62,5 +62,15 @@ export function renderOption (option: SelectOption): VNodeChild {
         },
       ),
     ]
+
+}
+
+export function renderDynamicTag(tag: string, index: number){
+    return h(NTag, {
+        color: randomTagColor(),
+        closable: true,
+    }, {
+        default: () => tag
+    })  
 
 }

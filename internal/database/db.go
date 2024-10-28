@@ -20,7 +20,7 @@ func InitDatabase() {
 		panic(err)
 	}
 
-	err = db.AutoMigrate(&model.TasksTable{})
+	err = db.AutoMigrate(&model.TasksTable{}, &model.ActionsTable{}, &model.TagsTable{})
 	if err != nil {
 		panic(err)
 	}
