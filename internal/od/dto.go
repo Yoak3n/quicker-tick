@@ -19,16 +19,24 @@ func GetTasks(dates []string) map[string][]*model.TaskView {
 		query[t.ID] = t
 	}
 	for _, t := range ts {
-		if t.Root {
-			taskView := &model.TaskView{
-				ID:          t.ID,
-				Description: t.Description,
-				Checked:     t.Checked,
-				// Action:      t.Action,
-				Root: true,
-			}
-			ParseTasksChildren(t, &query, taskView)
-			view[t.DueDate] = append(view[t.DueDate], taskView)
+		taskView := &model.TaskView{
+			ID:          t.ID,
+			Title:       t.Title,
+			Description: t.Description,
+			Checked:     t.Checked,
+			DueDate:     t.DueDate,
+			Status:      t.Status,
+			Priority:    t.Priority,
+			// Action:      t.Action,
+			Root: true,
+		}
+		view[t.DueDate] = append(view[t.DueDate], taskView)
+		// if t.Root {
+		if t.Tags != "" {
+			tags := strings.Split(t.Tags, ",")
+			taskView.Tags = tags
+		} else {
+			taskView.Tags = []string{}
 		}
 	}
 	return view

@@ -46,6 +46,11 @@ func (a *App) GetTasks(dates []string) map[string][]*model.TaskView {
 	return view
 }
 
+func (a *App) AddAction(object model.Action) {
+	record := od.ObjectToActionTable(&object)
+	controller.CreateAction(record)
+}
+
 func (a *App) ConvertTaskView(tasks []*model.TaskView) model.Item {
 	item := od.ConvertToDoc(tasks)
 	return item

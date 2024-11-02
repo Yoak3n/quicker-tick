@@ -24,3 +24,8 @@ func ReadTasksByDate(date []string) []model.TasksTable {
 	return tasks
 
 }
+
+func CreateAction(action *model.ActionsTable) {
+	db := database.GetDB()
+	db.Create(action)
+}

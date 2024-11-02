@@ -26,7 +26,13 @@ import { model } from 'wailsjs/go/models';
 
 const $router = useRouter();
 const $route = useRoute();
-const date = $route.params.date as string;
+
+let date = ref($route.params.date as string);
+
+onMounted(()=>{
+    date = ref($route.params.date as string);
+})
+
 const getOutput = (data:TaskView)=> {
     AddTask(data as model.TaskView).then((res)=>{
         if (res != ""){

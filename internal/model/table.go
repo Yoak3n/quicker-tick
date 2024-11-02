@@ -24,12 +24,13 @@ type (
 		DeletedAt   gorm.DeletedAt `gorm:"index"`
 	}
 	ActionsTable struct {
-		ID        string `gorm:"primarykey"`
-		Name      string
-		Command   string
-		CreatedAt time.Time
-		UpdatedAt time.Time
-		DeletedAt gorm.DeletedAt `gorm:"index"`
+		ID          string `gorm:"primarykey"`
+		Name        string
+		Command     string
+		Description string
+		CreatedAt   time.Time
+		UpdatedAt   time.Time
+		DeletedAt   gorm.DeletedAt `gorm:"index"`
 	}
 
 	TagsTable struct {

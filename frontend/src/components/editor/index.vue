@@ -47,6 +47,8 @@ let model = reactive<TaskView>({
 })
 
 const submitTask = () => {
+  console.log(model);
+  
   props.callback(model)
 }
 
@@ -77,8 +79,8 @@ const submitTask = () => {
         <n-gi>
           <n-form-item path="dueDate" label="截止日期">
             <n-date-picker :default-calendar-start-time="new Date().getTime()"
-              :default-time="new Date().toLocaleTimeString()" placeholder="请选择截止日期" type="datetime"
-              @update:formatted-value="(value) => { model.due_date = value }" format="yyyy-MM-dd HH:mm">
+              :default-time="new Date().toLocaleTimeString()" placeholder="请选择截止日期" type="date"
+              @update:formatted-value="(value) => { model.due_date = value }" format="yyyy-MM-dd">
             </n-date-picker>
           </n-form-item>
         </n-gi>

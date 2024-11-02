@@ -37,6 +37,20 @@ func ObjectToTaskTable(o *model.TaskView) *model.TasksTable {
 	return record
 }
 
+func ObjectToActionTable(o *model.Action) *model.ActionsTable {
+	record := &model.ActionsTable{
+		Name:        o.Name,
+		Command:     o.Command,
+		Description: o.Description,
+	}
+	if o.ID == "" {
+		o.ID = uuid.NewString()
+	} else {
+		record.ID = o.ID
+	}
+	return record
+}
+
 // 解析json
 func UnmashalRawString(object string, date string) error {
 	result := gjson.Parse(object)

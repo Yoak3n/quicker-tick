@@ -15,8 +15,8 @@ func registerTray() {
 
 func onReady() {
 	systray.SetTemplateIcon(icon, icon)
-	systray.SetTitle("Bdanmu")
-	systray.SetTooltip("Bdanmu")
+	systray.SetTitle("Ducker")
+	systray.SetTooltip("Ducker")
 	mShow := systray.AddMenuItem("显示", "")
 	mMinimize := systray.AddMenuItem("最小化", "Minimize the app")
 	mQuit := systray.AddMenuItem("退出", "Quit the whole app")
