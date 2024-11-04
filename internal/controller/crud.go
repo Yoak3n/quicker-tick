@@ -29,3 +29,10 @@ func CreateAction(action *model.ActionsTable) {
 	db := database.GetDB()
 	db.Create(action)
 }
+
+func ReadAllActions() []*model.ActionsTable {
+	db := database.GetDB()
+	var actions []*model.ActionsTable
+	db.Find(&actions)
+	return actions
+}

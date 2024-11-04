@@ -28,6 +28,7 @@ type (
 		Name        string
 		Command     string
 		Description string
+		Icon        string
 		CreatedAt   time.Time
 		UpdatedAt   time.Time
 		DeletedAt   gorm.DeletedAt `gorm:"index"`

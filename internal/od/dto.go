@@ -42,6 +42,22 @@ func GetTasks(dates []string) map[string][]*model.TaskView {
 	return view
 }
 
+func GetActions() []*model.Action {
+	views := make([]*model.Action, 0)
+	actions := controller.ReadAllActions()
+	for _, v := range actions {
+		view := &model.Action{
+			ID:          v.ID,
+			Name:        v.Name,
+			Description: v.Description,
+			Icon:        v.Icon,
+			Command:     v.Command,
+		}
+		views = append(views, view)
+	}
+	return views
+}
+
 // 递归解析子任务
 func ParseTasksChildren(task model.TasksTable, query *map[string]model.TasksTable, tt *model.TaskView) {
 	childrenIDs := strings.Split(task.Children, ",")

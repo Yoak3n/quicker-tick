@@ -10,6 +10,5 @@ export function randomTagColor() {
     //   textColor: RandomColor(),
       borderColor: RandomColor(),
     }
-    console.log(color);
     return color
   }

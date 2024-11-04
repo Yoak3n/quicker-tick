@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	"log"
 	"quicker-tick/internal/controller"
 	"quicker-tick/internal/model"
 	"quicker-tick/internal/od"
@@ -49,6 +50,11 @@ func (a *App) GetTasks(dates []string) map[string][]*model.TaskView {
 func (a *App) AddAction(object model.Action) {
 	record := od.ObjectToActionTable(&object)
 	controller.CreateAction(record)
+}
+
+func (a *App) GetActions() []*model.Action {
+	log.Println("GetActions")
+	return od.GetActions()
 }
 
 func (a *App) ConvertTaskView(tasks []*model.TaskView) model.Item {
