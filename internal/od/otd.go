@@ -44,7 +44,7 @@ func ObjectToActionTable(o *model.Action) *model.ActionsTable {
 		Description: o.Description,
 	}
 	if o.ID == "" {
-		o.ID = uuid.NewString()
+		record.ID = uuid.NewString()
 	} else {
 		record.ID = o.ID
 	}

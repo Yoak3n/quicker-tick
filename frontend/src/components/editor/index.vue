@@ -15,10 +15,16 @@ import {
   NUploadDragger,
   NButton
 } from 'naive-ui';
+import type { SelectOption } from 'naive-ui'
 import type { TaskView } from '@/types'
-import { RandomColor } from '.';
-import { statusOptions, priorityOptions, renderOption,renderDynamicTag } from './options'
+import { 
+  statusOptions,
+  priorityOptions,
+  renderOption,
+  renderDynamicTag } from './options'
 import { ArchiveOutline } from '@vicons/ionicons5'
+import { GetActions } from '../../../wailsjs/go/app/App';
+import { model } from '../../../wailsjs/go/models';
 
 
 const props = defineProps({
@@ -33,7 +39,7 @@ const props = defineProps({
 })
 
 
-let model = reactive<TaskView>({
+let form = reactive<TaskView>({
   title: '任务名称',
   description: '任务描述',
   status: 0,
@@ -47,13 +53,27 @@ let model = reactive<TaskView>({
 })
 
 const submitTask = () => {
-  console.log(model);
-  
-  props.callback(model)
+  props.callback(form)
 }
+let data= reactive<Array<model.Action>>([])
+const getActionsFromDatabase = async () => {
+  data = await GetActions()
+  actionsOptions = []
+  data.forEach((item) => {
+    actionsOptions.push({
+      label: item.name,
+      value: item.id
+    })
+  })
+}
+let actionsOptions = reactive<Array<SelectOption>>([])
 
-
-
+const updateActions = (value: string,options: SelectOption[]) => {
+  console.log(value);
+  console.log(options);
+  
+  
+}
 
 </script>
 
@@ -61,26 +81,26 @@ const submitTask = () => {
   <n-card>
     <n-form :model="model">
       <n-form-item path="title" label="任务名称">
-        <n-input v-model:value="model.title" />
+        <n-input v-model:value="form.title" />
       </n-form-item>
       <n-form-item path="description" label="任务描述">
         <n-input type="textarea" placeholder="请输入任务描述" size="small" :autosize="{
           minRows: 3,
           maxRows: 5,
-        }" v-model:value="model.description" />
+        }" v-model:value="form.description" />
       </n-form-item>
 
       <n-grid :cols="2">
         <n-gi>
           <n-form-item path="tags" label="标签">
-            <n-dynamic-tags v-model:value="model.tags" :render-tag="renderDynamicTag" />
+            <n-dynamic-tags v-model:value="form.tags" :render-tag="renderDynamicTag" />
           </n-form-item>
         </n-gi>
         <n-gi>
-          <n-form-item path="dueDate" label="截止日期">
+          <n-form-item path="due_date" label="截止日期">
             <n-date-picker :default-calendar-start-time="new Date().getTime()"
               :default-time="new Date().toLocaleTimeString()" placeholder="请选择截止日期" type="date"
-              @update:formatted-value="(value) => { model.due_date = value }" format="yyyy-MM-dd">
+              @update:formatted-value="(value) => { form.due_date = value }" format="yyyy-MM-dd">
             </n-date-picker>
           </n-form-item>
         </n-gi>
@@ -88,19 +108,23 @@ const submitTask = () => {
       <n-grid :cols="2">
         <n-gi>
           <n-form-item path="status" label="状态" class="status">
-            <n-select :options="statusOptions" :render-label="renderOption" v-model:value="model.status"></n-select>
+            <n-select :options="statusOptions" :render-label="renderOption" v-model:value="form.status" ></n-select>
           </n-form-item>
         </n-gi>
         <n-gi>
           <n-form-item path="priority" label="优先级" class="priority">
-            <n-select v-model:value="model.priority" :options="priorityOptions" :render-label="renderOption" />
+            <n-select v-model:value="form.priority" :options="priorityOptions" :render-label="renderOption" />
           </n-form-item>
         </n-gi>
       </n-grid>
       <n-form-item label="快捷操作" path="action">
         <n-grid :cols="3">
           <n-gi>
-            <n-select />
+            <n-select 
+            remote 
+            @focus="getActionsFromDatabase"
+            @update:value="updateActions" 
+            :options="actionsOptions"/>
           </n-gi>
           <n-gi></n-gi>
           <n-gi>
