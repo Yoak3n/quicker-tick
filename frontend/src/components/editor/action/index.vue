@@ -15,7 +15,6 @@
         <n-form-item>
             <n-button type="primary" class="button" @click="submitAction">Add</n-button>
         </n-form-item>
-
     </n-form>
 
 </template>
@@ -38,6 +37,7 @@ const form_model = reactive<Action>(defaultAction)
 const submitAction= ()=>{
     console.log(form_model);
     AddAction(form_model as model.Action)
+    window.$modal.destroyAll()
 }
 </script>
 

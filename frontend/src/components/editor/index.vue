@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive,ref } from 'vue'
 import {
   NCard,
   NForm,
@@ -16,7 +16,7 @@ import {
   NButton
 } from 'naive-ui';
 import type { SelectOption } from 'naive-ui'
-import type { TaskView } from '@/types'
+import type { Action, TaskView } from '@/types'
 import { 
   statusOptions,
   priorityOptions,
@@ -34,7 +34,7 @@ const props = defineProps({
   },
   date:{
     type: String,
-    required: true,
+    default: new Date().toISOString().slice(0, 10).replace('/', '-')
   }
 })
 
@@ -55,26 +55,35 @@ let form = reactive<TaskView>({
 const submitTask = () => {
   props.callback(form)
 }
-let data= reactive<Array<model.Action>>([])
-const getActionsFromDatabase = async () => {
-  data = await GetActions()
+let action_data = reactive<model.Action[]>([])
+const getActionsFromDatabase =() => {
   actionsOptions = []
-  data.forEach((item) => {
-    actionsOptions.push({
-      label: item.name,
-      value: item.id
+  action_select_loading.value = true
+  GetActions().then((res) => {
+    action_data = res
+    let options_temp:Array<SelectOption> = []
+    res.forEach((item) => {
+      options_temp.push({
+        label: item.name,
+        value: item.id
+      })
     })
+    action_select_loading.value = false
+    actionsOptions = options_temp
   })
 }
 let actionsOptions = reactive<Array<SelectOption>>([])
+let action_select_loading = ref<boolean>(false) 
 
-const updateActions = (value: string,options: SelectOption[]) => {
-  console.log(value);
-  console.log(options);
-  
-  
+const updateActions = (value:string) => {
+  let action_temp:Action[] =[] 
+  action_data.findIndex((item) => {
+    if (item.id == value) {
+      action_temp.push(item)
+    }
+  })
+  form.actions = action_temp
 }
-
 </script>
 
 <template>
@@ -121,9 +130,9 @@ const updateActions = (value: string,options: SelectOption[]) => {
         <n-grid :cols="3">
           <n-gi>
             <n-select 
-            remote 
+            @update-value="updateActions"
+            :loading="action_select_loading"
             @focus="getActionsFromDatabase"
-            @update:value="updateActions" 
             :options="actionsOptions"/>
           </n-gi>
           <n-gi></n-gi>

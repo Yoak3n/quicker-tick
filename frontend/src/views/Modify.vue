@@ -30,7 +30,11 @@ const $route = useRoute();
 let date = ref($route.params.date as string);
 
 onMounted(()=>{
-    date = ref($route.params.date as string);
+    if ($route.params.date == undefined){
+        date.value = new Date().toISOString().slice(0,10).replace('/',"-");
+    }else{
+        date.value = $route.params.date as string;
+    }
 })
 
 const getOutput = (data:TaskView)=> {
