@@ -3,7 +3,7 @@
         <n-breadcrumb-item href="/">
              首页
           </n-breadcrumb-item>
-          <n-breadcrumb-item @click="()=>$router.push('/dashboard')">
+          <n-breadcrumb-item @click="()=>$router.push('/calendar')">
             日历视图
           </n-breadcrumb-item>
           <n-breadcrumb-item>

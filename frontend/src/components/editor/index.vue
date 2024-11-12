@@ -34,7 +34,7 @@ const props = defineProps({
   },
   date:{
     type: String,
-    default: new Date().toISOString().slice(0, 10).replace('/', '-')
+    required: true
   }
 })
 
