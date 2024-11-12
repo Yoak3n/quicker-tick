@@ -9,7 +9,7 @@ import { ref, h, onMounted } from 'vue';
 import { NDataTable, NTag, NButton } from 'naive-ui';
 import type { DataTableColumns } from 'naive-ui';
 import type { RowData } from './index';
-import { GetTasks } from '../../../../wailsjs/go/app/App';
+import { GetTasks,RunCommand } from '../../../../wailsjs/go/app/App';
 import { model } from '../../../../wailsjs/go/models';
 
 
@@ -72,7 +72,10 @@ const createColumns = (jp:{StartTask: (row: RowData) => void}) => {
                     NButton,
                     {
                         size: 'small',
-                        onClick: () => jp.StartTask(row)
+                        onClick: () => {
+                            RunCommand("https://www.bilibili.com")
+                            jp.StartTask(row)
+                        }
                     },
                     { default: () => '开始' }
                 )

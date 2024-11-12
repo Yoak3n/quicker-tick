@@ -1,10 +1,15 @@
 package shortcut
 
-import "os/exec"
+import (
+	"os/exec"
+	"syscall"
+)
 
 func OpenBrowser(url string) {
-	go func() {
-		command := exec.Command("cmd", "/c", "start", url)
-		command.Run()
-	}()
+	cmd := exec.Command("cmd", "/c", "start", url)
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		HideWindow:    true,
+		CreationFlags: 0x08000000,
+	}
+	cmd.Start()
 }

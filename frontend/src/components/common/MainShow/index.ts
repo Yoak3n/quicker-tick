@@ -13,5 +13,4 @@ export interface  RowData {
 
 export function StartTask(row:RowData) {
     console.log(row);
-    
 }
