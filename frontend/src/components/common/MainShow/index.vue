@@ -26,7 +26,7 @@ const props = defineProps(
 let data = ref<model.TaskView[]>()
 onMounted(async() => {
     const a =  await GetTasks([props.date])
-    
+    console.log(a);
     data.value = a[props.date]
 })
 

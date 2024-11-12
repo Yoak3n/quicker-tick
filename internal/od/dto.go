@@ -1,6 +1,7 @@
 package od
 
 import (
+	"log"
 	"quicker-tick/internal/controller"
 	"quicker-tick/internal/model"
 	"strconv"
@@ -27,8 +28,21 @@ func GetTasks(dates []string) map[string][]*model.TaskView {
 			DueDate:     t.DueDate,
 			Status:      t.Status,
 			Priority:    t.Priority,
+			Actions:     make([]*model.Action, 0),
 			// Action:      t.Action,
 			Root: true,
+		}
+		if t.Action != "" {
+			actionRecord := controller.ReadActionByID(t.Action)
+			actionView := &model.Action{
+				ID:          actionRecord.ID,
+				Name:        actionRecord.Name,
+				Description: actionRecord.Description,
+				Icon:        actionRecord.Icon,
+				Command:     actionRecord.Command,
+			}
+			log.Println(actionView)
+			taskView.Actions = append(taskView.Actions, actionView)
 		}
 		view[t.DueDate] = append(view[t.DueDate], taskView)
 		// if t.Root {

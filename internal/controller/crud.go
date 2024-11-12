@@ -22,12 +22,17 @@ func ReadTasksByDate(date []string) []model.TasksTable {
 	var tasks []model.TasksTable
 	db.Where("due_date IN ?", date).Find(&tasks)
 	return tasks
-
 }
 
 func CreateAction(action *model.ActionsTable) {
 	db := database.GetDB()
 	db.Create(action)
+}
+func ReadActionByID(id string) *model.ActionsTable {
+	db := database.GetDB()
+	var action *model.ActionsTable
+	db.Where("id = ?", id).First(&action)
+	return action
 }
 
 func ReadAllActions() []*model.ActionsTable {

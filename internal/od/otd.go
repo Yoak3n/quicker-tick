@@ -34,6 +34,13 @@ func ObjectToTaskTable(o *model.TaskView) *model.TasksTable {
 	if len(o.Tags) > 0 {
 		record.Tags = strings.Join(o.Tags, ",")
 	}
+	if len(o.Actions) > 0 {
+		ids := make([]string, 0)
+		for _, v := range o.Actions {
+			ids = append(ids, v.ID)
+		}
+		record.Action = strings.Join(ids, ",")
+	}
 	return record
 }
 
@@ -42,9 +49,10 @@ func ObjectToActionTable(o *model.Action) *model.ActionsTable {
 		Name:        o.Name,
 		Command:     o.Command,
 		Description: o.Description,
+		Icon:        o.Icon,
 	}
 	if o.ID == "" {
-		record.ID = uuid.NewString()
+		record.ID = "action-" + uuid.NewString()
 	} else {
 		record.ID = o.ID
 	}

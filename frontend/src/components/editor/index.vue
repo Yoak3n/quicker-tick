@@ -108,7 +108,7 @@ const updateActions = (value:string) => {
         <n-gi>
           <n-form-item path="due_date" label="截止日期">
             <n-date-picker :default-calendar-start-time="new Date().getTime()"
-              :default-time="new Date().toLocaleTimeString()" placeholder="请选择截止日期" type="date"
+              placeholder="请选择截止日期" type="date"
               @update:formatted-value="(value) => { form.due_date = value }" format="yyyy-MM-dd">
             </n-date-picker>
           </n-form-item>
