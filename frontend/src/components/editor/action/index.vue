@@ -13,6 +13,7 @@
             <n-select 
             style="width: 40%"
             :options="actionTypeOptions" 
+            v-model:value="form_model.type"
             @update:value="changeArgTip"
             :default-value="defaultAction.type"/>
             <n-input 

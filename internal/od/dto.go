@@ -35,6 +35,7 @@ func GetTasks(dates []string) map[string][]*model.TaskView {
 		if t.Action != "" {
 			actionRecord := controller.ReadActionByID(t.Action)
 			actionView := &model.Action{
+				Type:        actionRecord.Type,
 				ID:          actionRecord.ID,
 				Name:        actionRecord.Name,
 				Description: actionRecord.Description,
@@ -66,6 +67,7 @@ func GetActions() []*model.Action {
 			Description: v.Description,
 			Icon:        v.Icon,
 			Command:     v.Command,
+			Type:        v.Type,
 		}
 		views = append(views, view)
 	}

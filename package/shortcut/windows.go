@@ -21,6 +21,7 @@ func OpenBrowser(url string) {
 }
 func RunCommandLine(command string) {
 	args := strings.Split(command, " ")
+	args = append([]string{"/c"}, args...)
 	cmd := exec.Command("cmd", args...)
 	out, err := cmd.CombinedOutput()
 

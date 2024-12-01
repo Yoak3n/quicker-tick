@@ -41,11 +41,15 @@
             }
           });
         } else {
+          
+            const date = new Date()
+            const d = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+        
           $router.push(
             {
               name: 'Modify',
               params: {
-                date: new Date().toISOString().slice(0, 10).replace('/', '-')
+                date: d
               }
             });
         }

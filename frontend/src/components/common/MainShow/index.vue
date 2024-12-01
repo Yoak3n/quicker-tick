@@ -132,12 +132,11 @@ const createColumns = (jp:{StartTask: (row: RowData) => void}) => {
                     {
                         size: 'small',
                         onClick: () => {
-                            console.log(row.actions);
                             const actions:Array<Action> = row.actions
-                            const a = actions[0]
-                            RunAction(a)
-                            
-                            
+                                if (actions.length > 0){
+                                    const a = actions[0]
+                                    RunAction(a)
+                                }
                             jp.StartTask(row)
                         }
                     },

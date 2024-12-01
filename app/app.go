@@ -74,11 +74,12 @@ func (a *App) Greet(name string) string {
 
 func (a *App) RunAction(action model.Action) {
 	log.Println("RunAction", action)
-	switch action.Type {
+	realAction := controller.ReadActionByID(action.ID)
+	switch realAction.Type {
 	case "browser":
-		shortcut.OpenBrowser(action.Command)
+		shortcut.OpenBrowser(realAction.Command)
 	default:
-		shortcut.RunCommandLine(action.Command)
+		shortcut.RunCommandLine(realAction.Command)
 	}
 
 }
