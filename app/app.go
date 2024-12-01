@@ -73,7 +73,6 @@ func (a *App) Greet(name string) string {
 }
 
 func (a *App) RunAction(action model.Action) {
-	log.Println("RunAction", action)
 	realAction := controller.ReadActionByID(action.ID)
 	switch realAction.Type {
 	case "browser":

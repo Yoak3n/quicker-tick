@@ -12,7 +12,7 @@
       <bottom-nav/>
     </div>
   </div>
-
+<!-- 
 
 
   <n-float-button :bottom="15" :right="5" menu-trigger="hover">
@@ -60,7 +60,7 @@
       </n-float-button>
     </template>
 
-  </n-float-button>
+  </n-float-button> -->
 </template>
 
 <script lang="ts" setup>
@@ -80,7 +80,6 @@ import AcitonEditor from "@/components/editor/action/index.vue"
 
 const $router = useRouter();
 const $route = useRoute();
-const containerRef = ref<HTMLElement | undefined>(undefined)
 window.$modal = useModal()
 
 const showActionEditor = () => {

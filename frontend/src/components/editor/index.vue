@@ -5,14 +5,11 @@ import {
   NForm,
   NFormItem,
   NInput,
-  NIcon,
   NDynamicTags,
   NSelect,
   NDatePicker,
   NGrid,
   NGi,
-  NUpload,
-  NUploadDragger,
   NButton
 } from 'naive-ui';
 import type { SelectOption } from 'naive-ui'
@@ -22,10 +19,10 @@ import {
   priorityOptions,
   renderOption,
   renderDynamicTag } from './options'
-import { ArchiveOutline } from '@vicons/ionicons5'
+
 import { GetActions } from '../../../wailsjs/go/app/App';
 import { model } from '../../../wailsjs/go/models';
-
+import {showActionEditor} from '.'
 
 const props = defineProps({
   callback: {
@@ -84,6 +81,8 @@ const updateActions = (value:string) => {
   })
   form.actions = action_temp
 }
+
+
 </script>
 
 <template>
@@ -115,7 +114,7 @@ const updateActions = (value:string) => {
           </n-form-item>
         </n-gi>
       </n-grid>
-      <n-grid :cols="2">
+      <n-grid :cols="4">
         <n-gi>
           <n-form-item path="status" label="状态" class="status">
             <n-select :options="statusOptions" :render-label="renderOption" v-model:value="form.status" ></n-select>
@@ -136,22 +135,13 @@ const updateActions = (value:string) => {
             @focus="getActionsFromDatabase"
             :options="actionsOptions"/>
           </n-gi>
-          <n-gi></n-gi>
-          <n-gi>
-            <n-upload accept=".doc,.docx">
-              <n-upload-dragger>
-                <div style="margin-bottom: 12px">
-                  <n-icon size="48" :depth="3">
-                    <ArchiveOutline />
-                  </n-icon>
-                </div>
-              </n-upload-dragger>
-            </n-upload>
+          <n-gi :span="2">
+            <n-button dashed @click="showActionEditor" ghost style="width: 80%;margin:0 auto;" >创建快捷操作</n-button>
           </n-gi>
         </n-grid>
       </n-form-item>
       <n-form-item>
-        <n-button type="success" @click="submitTask">提交</n-button>
+        <n-button type="success" @click="submitTask" style="width: 80%;margin:0 auto;">提交</n-button>
       </n-form-item>
     </n-form>
   </n-card>

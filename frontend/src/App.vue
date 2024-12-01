@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppBar from '@/components/common/AppBar/index.vue'
+
 import Layout from './layout/index.vue'
 import NaiveProvider from "@/components/provider/index.vue"
 

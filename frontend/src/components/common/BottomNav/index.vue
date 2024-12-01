@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import {h} from 'vue';
 import { useRouter } from 'vue-router';
-import { NIcon,NFlex,useModal } from 'naive-ui';
+import { NIcon,NFlex } from 'naive-ui';
 import {
   HomeOutline,
   CalendarOutline,
@@ -29,7 +29,6 @@ import {
 } from '@vicons/ionicons5'
 import AcitonEditor from "@/components/editor/action/index.vue"
 const $router = useRouter()
-window.$modal = useModal()
 
 const showActionEditor = () => {
   const m = window.$modal.create({
@@ -61,6 +60,11 @@ const showActionEditor = () => {
         width: 32%;
         font-size: 20px;
         &:hover{
+            color: #18A058;
+
+        }
+        &:active{
+            color: #18A058;
             border: .5px inset #aaa;
             background-color: #eee;
         }

@@ -1,6 +1,7 @@
 <template>
     <div class="main-show-wrapper">
         <n-data-table :columns="columns" :bordered="false" :data="data" :rowProps/>
+        <n-button style="width: 100%;"  dashed class="add-task-button" ghost @click="addTaskButton">添加任务</n-button>
         <n-dropdown
         placement="bottom-start"
         trigger="manual"
@@ -10,19 +11,23 @@
         :show="showDropdownRef"
         :on-clickoutside="onClickoutside"
         @select="handleSelect"
-      />
+        />
     </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, h, onMounted,nextTick } from 'vue';
 import { NDataTable, NTag, NButton,NDropdown,NCheckbox } from 'naive-ui';
-import type{ DropdownOption } from 'naive-ui';
-import type { DataTableColumns } from 'naive-ui';
+import type{ DropdownOption,DataTableColumns  } from 'naive-ui';
+import { useRouter } from 'vue-router';
 import type { RowData } from './index';
 import { GetTasks,RunAction } from '../../../../wailsjs/go/app/App';
 import { model } from '../../../../wailsjs/go/models';
 
+const $router = useRouter()
+const addTaskButton = () =>{
+    $router.push({name:'Modify',params:{date:props.date}})
+}
 let x = ref(0)
 let y = ref(0)
 let showDropdownRef = ref(false)
@@ -59,10 +64,7 @@ const props = defineProps(
 let data = ref<model.TaskView[]>()
 onMounted(async() => {
     const a =  await GetTasks([props.date])
-
-    
     data.value = a[props.date]
-    console.log(data.value);
 })
 
 
@@ -160,8 +162,6 @@ const rowProps = (row:RowData)=>{
     }
 }
 }
-
-
 import { StartTask } from './index';
 import { Action } from '@/types';
 const columns: DataTableColumns<RowData> = createColumns({StartTask})
@@ -170,5 +170,8 @@ const columns: DataTableColumns<RowData> = createColumns({StartTask})
 <style scoped lang="less">
 .main-show-wrapper{
     height: 100%;
+    .add-task-button{
+        color: #18A058;
+    }
 }
 </style>
