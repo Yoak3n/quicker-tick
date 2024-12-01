@@ -1,24 +1,57 @@
 <template>
     <div class="main-show-wrapper">
-        <n-data-table :columns="columns" :bordered="false" :data="data" />
+        <n-data-table :columns="columns" :bordered="false" :data="data" :rowProps/>
+        <n-dropdown
+        placement="bottom-start"
+        trigger="manual"
+        :x="x"
+        :y="y"
+        :options="options"
+        :show="showDropdownRef"
+        :on-clickoutside="onClickoutside"
+        @select="handleSelect"
+      />
     </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, h, onMounted } from 'vue';
-import { NDataTable, NTag, NButton } from 'naive-ui';
+import { ref, h, onMounted,nextTick } from 'vue';
+import { NDataTable, NTag, NButton,NDropdown,NCheckbox } from 'naive-ui';
+import type{ DropdownOption } from 'naive-ui';
 import type { DataTableColumns } from 'naive-ui';
 import type { RowData } from './index';
-import { GetTasks,RunCommand } from '../../../../wailsjs/go/app/App';
+import { GetTasks,RunAction } from '../../../../wailsjs/go/app/App';
 import { model } from '../../../../wailsjs/go/models';
 
+let x = ref(0)
+let y = ref(0)
+let showDropdownRef = ref(false)
+const options: DropdownOption[] = [
+  {
+    label: '编辑',
+    key: 'edit'
+  },
+  {
+    label: () => h('span', { style: { color: 'red' } }, '删除'),
+    key: 'delete'
+  }
+]
+const handleSelect = ()=>{
+    showDropdownRef.value = false
+}
+const onClickoutside=() =>{
+    showDropdownRef.value = false
+}
 
 const props = defineProps(
     {
         date:{
             type: String,
-            default: new Date().toISOString().slice(0, 10).replace('/', '-')
-        }
+            default: ()=>{
+                const date = new Date()
+                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+            }
+        },
     }
 )
 
@@ -26,8 +59,10 @@ const props = defineProps(
 let data = ref<model.TaskView[]>()
 onMounted(async() => {
     const a =  await GetTasks([props.date])
-    console.log(a);
+
+    
     data.value = a[props.date]
+    console.log(data.value);
 })
 
 
@@ -35,16 +70,39 @@ onMounted(async() => {
 const createColumns = (jp:{StartTask: (row: RowData) => void}) => {
     return [
         {
+            title:'',
+            width:25,
+            key:'checked',
+            render(row: RowData) {
+                return h(
+                    NCheckbox,
+                    {
+                        onUpdateChecked: (checked) => {
+                            row.checked = checked
+                        }
+                    },
+                    {
+                        default: () => row.checked
+                    }
+                )
+            }
+        },
+        {
             title: '任务名',
             key: 'title',
         },
         {
             title: '描述',
             key: 'description',
+            width:150,
+            ellipsis: {
+                tooltip: true
+            }
         },
         {
             title: '标签',
             key: 'tags',
+            width: 200,
             render(row: RowData) {
                 const tags = row.tags.map((tagKey) => {
                     return h(
@@ -67,13 +125,19 @@ const createColumns = (jp:{StartTask: (row: RowData) => void}) => {
         {
             title: '操作',
             key: 'action',
+            width: 100,
             render(row: RowData) {
                 return h(
                     NButton,
                     {
                         size: 'small',
                         onClick: () => {
-                            RunCommand("https://www.bilibili.com")
+                            console.log(row.actions);
+                            const actions:Array<Action> = row.actions
+                            const a = actions[0]
+                            RunAction(a)
+                            
+                            
                             jp.StartTask(row)
                         }
                     },
@@ -83,12 +147,29 @@ const createColumns = (jp:{StartTask: (row: RowData) => void}) => {
         },
     ]
 }
+const rowProps = (row:RowData)=>{
+    return {
+        onContextmenu: (e: MouseEvent) => {
+            // window.$message.info(JSON.stringify(row, null, 2))
+            e.preventDefault()
+            showDropdownRef.value = false
+            nextTick().then(() => {
+              showDropdownRef.value = true
+              x.value = e.clientX
+              y.value = e.clientY
+            })
+    }
+}
+}
 
 
 import { StartTask } from './index';
+import { Action } from '@/types';
 const columns: DataTableColumns<RowData> = createColumns({StartTask})
 </script>
 
 <style scoped lang="less">
-
+.main-show-wrapper{
+    height: 100%;
+}
 </style>

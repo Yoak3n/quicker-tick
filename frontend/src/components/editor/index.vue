@@ -44,7 +44,7 @@ let form = reactive<TaskView>({
   description: '任务描述',
   status: 0,
   priority: 0,
-  due_date: new Date().toISOString().slice(0, 10).replace('/', '-'),
+  due_date: props.date,
   actions: [],
   tags: [],
   children: [],
@@ -109,7 +109,8 @@ const updateActions = (value:string) => {
           <n-form-item path="due_date" label="截止日期">
             <n-date-picker :default-calendar-start-time="new Date().getTime()"
               placeholder="请选择截止日期" type="date"
-              @update:formatted-value="(value) => { form.due_date = value }" format="yyyy-MM-dd">
+              v-model:formatted-value="form.due_date"
+              format="yyyy-M-d">
             </n-date-picker>
           </n-form-item>
         </n-gi>

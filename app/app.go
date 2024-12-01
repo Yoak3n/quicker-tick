@@ -72,7 +72,13 @@ func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)
 }
 
-func (a *App) RunCommand(url string) {
-	log.Println("RunCommand")
-	shortcut.OpenBrowser(url)
+func (a *App) RunAction(action model.Action) {
+	log.Println("RunAction", action)
+	switch action.Type {
+	case "browser":
+		shortcut.OpenBrowser(action.Command)
+	default:
+		shortcut.RunCommandLine(action.Command)
+	}
+
 }

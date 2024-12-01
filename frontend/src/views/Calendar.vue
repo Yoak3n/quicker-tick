@@ -1,7 +1,6 @@
 <template>
     <div class="calendar-view">
-        <Calendar 
-        :date="value"
+        <Calendar :date="value"
         />
     </div>
 </template>

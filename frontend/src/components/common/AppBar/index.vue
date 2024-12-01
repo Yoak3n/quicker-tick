@@ -9,12 +9,12 @@
             <n-icon ><ArrowBackOutline/></n-icon>
         </template>
       </n-button>
-      <n-button text @click="()=> $router.push('/')">
+      <n-button text @click="pushToHome">
         <template #icon>
             <n-icon ><HomeOutline/></n-icon>
         </template>
       </n-button>
-      <n-button text @click="()=>Quit()">
+      <n-button text @click="closeApp">
         <template #icon>
             <n-icon ><Close/></n-icon>
         </template>
@@ -40,6 +40,14 @@ import { Quit } from '../../../../wailsjs/runtime/runtime'
 import { useRouter } from 'vue-router';
 const $router = useRouter()
 
+const pushToHome  = (e: MouseEvent) => {
+  e.preventDefault()
+  $router.push('/')
+}
+const closeApp=(e: MouseEvent)=>{
+  e.preventDefault()
+  Quit()
+}
 
 </script>
 

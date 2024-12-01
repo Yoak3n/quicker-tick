@@ -39,9 +39,14 @@ const props = defineProps({
     }
 })
 const date =new Date(props.date)
+
 let index = ref('')
 onMounted(()=>{
     index.value = date.getDate().toString()
+    if (props.tasks != undefined){
+        console.log(props.tasks)
+    }
+    
 })
 
 </script>
@@ -84,14 +89,14 @@ onMounted(()=>{
         .calendar-button-content{
             height: 80%;
         }
-        &:not(:disabled)::after{
-            content: '';
-            display: block;
-            width: 50%;
-            height: 1px;
-            background-color: #ccc;
-            margin:0 auto;
-        }
+        //&:not(:disabled)::after{
+        //     content: '';
+        //    display: block;
+        //    width: 50%;
+        //   height: 1px;
+        //    background-color: #ccc;
+        //    margin:0 auto;
+        //}
     }
     .active{
         background-color: #117af2;
