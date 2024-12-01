@@ -9,7 +9,8 @@
 import MainShow from "@/components/common/MainShow/index.vue"
 
 
-const today = new Date().toISOString().slice(0, 10).replace('/', '-');
+const date = new Date()
+const today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 
 
 

@@ -5,9 +5,9 @@
         :cols="1" 
         :y-gap="10"
         collapsed>
-            <n-gi v-if="tasks && tasks.length > 0" v-for="item in props.tasks" :key="item.id">
-                <div class="task-item">
-                    {{ item.description }}
+            <n-gi v-if="tasks && tasks.length > 0" v-for="item,index in props.tasks" :key="item.id">
+                <div class="task-item" v-if="index < 3">
+                    {{ item.title }}
                 </div>
             </n-gi>
         </n-grid>

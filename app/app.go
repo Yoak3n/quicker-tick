@@ -7,6 +7,7 @@ import (
 	"quicker-tick/internal/controller"
 	"quicker-tick/internal/model"
 	"quicker-tick/internal/od"
+	"quicker-tick/package/shortcut"
 )
 
 var app *App
@@ -69,4 +70,16 @@ func (a *App) ConvertTask(item model.Item) string {
 // Greet returns a greeting for the given name
 func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)
+}
+
+func (a *App) RunAction(action model.Action) {
+	log.Println("RunAction", action)
+	realAction := controller.ReadActionByID(action.ID)
+	switch realAction.Type {
+	case "browser":
+		shortcut.OpenBrowser(realAction.Command)
+	default:
+		shortcut.RunCommandLine(realAction.Command)
+	}
+
 }

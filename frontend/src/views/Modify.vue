@@ -40,9 +40,11 @@ onMounted(()=>{
 const getOutput = (data:TaskView)=> {
     AddTask(data as model.TaskView).then((res)=>{
         if (res != ""){
-            console.log(res);
+            window.$message.error(res,{duration: 2000})
         }
+
     })
+    $router.push('/')
 }
 
 

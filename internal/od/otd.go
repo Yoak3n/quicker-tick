@@ -50,6 +50,7 @@ func ObjectToActionTable(o *model.Action) *model.ActionsTable {
 		Command:     o.Command,
 		Description: o.Description,
 		Icon:        o.Icon,
+		Type:        o.Type,
 	}
 	if o.ID == "" {
 		record.ID = "action-" + uuid.NewString()

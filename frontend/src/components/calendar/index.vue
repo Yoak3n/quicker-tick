@@ -71,8 +71,8 @@
                             :isToday="computeIsToday(`${y}-${m}-${i - current_month_first_day+1}`)"
                             :tasks="current_month_data.get(`${y}-${m}-${i - current_month_first_day+1}`)" />
                         <CalendarButton v-else
-                        :key="`${y}-${m + 1}-${i - current_month_count - current_month_first_day +1}`"
-                        :date="`${y}-${m + 1}-${i - current_month_count - current_month_first_day +1}`" />
+                        :key="m ==12?`${y+1}-${1}-${i - current_month_count - current_month_first_day +1}`:`${y}-${m + 1}-${i - current_month_count - current_month_first_day +1}`"
+                        :date="m ==12?`${y+1}-${1}-${i - current_month_count - current_month_first_day +1}`:`${y}-${m + 1}-${i - current_month_count - current_month_first_day +1}`" />
                     </n-gi>
                 </n-grid>
             </div>
@@ -188,6 +188,7 @@ const nextMonth = ()=> {
 
 <style scoped lang="less">
 .calendar-wrapper {
+    scrollbar-width: none;
     text-align: center;
     .calendar-header{
         margin-bottom: 10px;

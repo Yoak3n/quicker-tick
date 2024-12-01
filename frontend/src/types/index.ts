@@ -1,9 +1,10 @@
 interface ActionModel {
-    id?: string,
+    id: string,
     name: string,
     description: string,
-    icon?: string,
+    icon: string,
     command: string,
+    type: string,
 }
 
 

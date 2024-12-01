@@ -20,6 +20,7 @@ type Action struct {
 	Description string `json:"description"`
 	Icon        string `json:"icon"`
 	Command     string `json:"command"`
+	Type        string `json:"type"`
 }
 
 type Tag struct {
